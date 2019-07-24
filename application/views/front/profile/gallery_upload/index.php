@@ -1,21 +1,33 @@
+
 <div class="card-title">
     <h3 class="heading heading-6 strong-500">
     <b><?php echo translate('upload_your_image')?></b></h3>
 </div>
 <div class="card-body">
-    <form class="form-default col-12" id="gallery_upload_form" method="post" action="<?=base_url()?>home/gallery_upload/add" role="form" enctype="multipart/form-data">
-        <div class="form-group has-feedback col-10 ml-auto mr-auto">
+  
+    <form class="form-default" id="gallery_upload_form" method="post" action="<?=base_url()?>home/gallery_upload/add" role="form" enctype="multipart/form-data">
+        <!--div class="form-group has-feedback">
             <label class="control-label"><?php echo translate('image_title')?></label>
+            
+            <input type="hidden" id="photo_upload_title" name="title" class="form-control" value="Gallery Image">
             <input type="text" id="photo_upload_title" name="title" class="form-control" required>
-        </div>
-        <div class="form-group has-feedback col-10 ml-auto mr-auto select_div" id="img_main">
-            <label class="control-label"><?php echo translate('upload_image')?></label>
-            <div class="col-sm-12" style="margin:2px; padding:2px;">
+        </div-->
+        <input type="hidden" id="photo_upload_title" name="title" class="form-control" value="Gallery Image">
+        <div class="form-group has-feedback select_div" id="img_main">
+            <!--label class="control-label"><?php //echo translate('upload_image')?></label-->
+            <div class="col-sm-12 galery_image_div" style="margin:2px; padding:2px;" id="galery_image_div">
+			     <label for="image_main" class="control-label select_a_photo">
+                <a class="btn btn-styled  btn-base-2 btn-shadow ml-1" style="color: #FFF"><?php echo translate('select_a_photo')?></a>
+            </label>
+			
                 <img class="img-responsive img-border blah z-depth-1-bottom" style="width: 100%;border: 1px solid #e6e6e6;" src="<?=base_url()?>uploads/happy_story_image/default_image.jpg" class="img-sm">
             </div>
-            <label for="image_main" class="control-label">
-                <a class="btn btn-styled btn-xs btn-base-2 btn-shadow ml-1" style="color: #FFF"><?php echo translate('select_a_photo')?></a>
-            </label>
+             <div class="gallery_upload-demo-wrap" id="gallery_upload-demo-wrap" style="display:none;margin:2px; padding:2px; width: 100%;">
+                 <div id="gallery_upload-demo"></div>
+             </div>
+
+            
+<input type="hidden" id="gallery_profile_image_data" name="gallery_profile_image_data" />
             <input type="file" id="image_main" name="image" class="form-control imgInp" style="display: none" required>
         </div>
         <!-- <div class="form-group has-feedback col-10 ml-auto mr-auto select_div" id="img_main">
@@ -24,10 +36,12 @@
                 </small>
             </div>
         </div> -->
-        <div class="form-group has-feedback col-10 ml-auto mr-auto text-center mt-5">
-            <a href="#" class="btn btn-sm btn-danger btn-shadow" data-filter="*" onclick="profile_load('gallery')"><?php echo translate('go_back')?></a>
-            <button type="submit" id="btn_gallery_upload" class="btn btn-sm btn-base-1 btn-shadow" data-filter="*" style="display: none;"><?php echo translate('upload')?></button>
-            <a id="submit_gallery" class="btn btn-sm btn-base-1 btn-shadow" onclick="return confirm_gallery_upload(<?=$this->session->userdata('member_id')?>)" style="color: white"><?php echo translate('upload')?></a>
+        <div class="form-group has-feedback text-center mt-5">
+            <a href="#" class="btn btn-shadow" data-filter="*" onclick="profile_load('gallery')"><i class="ion-arrow-left-c"></i> <?php echo translate('go_back')?></a>
+            <button type="submit" id="btn_gallery_upload" class="btn btn-shadow" data-filter="*" style="display: none;">
+			<i class="ion-upload"></i><?php echo translate('upload')?></button>
+               <!--a id="gallery_save_image_" class="btn btn-sm btn-base-1 btn-shadow" style="color: white"><?php echo translate('upload')?></a-->
+            <a id="submit_gallery" class="btn btn-base-1 btn-shadow" onclick="return confirm_gallery_upload(<?=$this->session->userdata('member_id')?>)" style="color: white"><i class="ion-upload"></i> <?php echo translate('upload')?></a>
         </div>
     </form>  
 </div>
@@ -45,7 +59,73 @@
     }
     $("#img_main").on('change', '.imgInp', function () {
         readURL_all(this);
+        //galleryReadFile(this);
     });
+
+ $(document).ready(function(){
+     $('#gallery_save_image').on('click', function (ev) {
+		     ev.preventDefault();
+			$gallery_uploadCrop .croppie('result', {
+				type: 'canvas',
+				size: 'viewport'
+			}).then(function (resp) {
+				gallerypopupResult({
+					src: resp
+				});
+			});
+		});
+		$('#cancel_save_image').on('click', function (ev) {
+	            $("#galery_image_div").show();
+          	    $(".gallery_upload-demo-wrap").hide();
+		});
+      $gallery_uploadCrop = $('#gallery_upload-demo').croppie({
+        enableExif: true,
+        viewport: {
+         width: 320,
+         height: 320,
+         type: 'square'
+       },
+       boundary: {
+         width: 322,
+         height: 322
+       }
+    });
+});
+function galleryReadFile(input) {
+//debugger;
+ 			if (input.files && input.files[0]) {
+ 			
+	            var reader = new FileReader();
+	            
+	            reader.onload = function (e) {
+					$('.gallery_upload-demo').addClass('ready');
+	            	$gallery_uploadCrop .croppie('bind', {
+	            		url: e.target.result
+	            	}).then(function(){
+	            		console.log('jQuery bind complete');
+	            	});
+	            	
+	            }
+	            
+	            reader.readAsDataURL(input.files[0]);
+	            
+	            $("#galery_image_div").hide();
+          	    $("#gallery_upload-demo-wrap").show();	            
+	        }
+	        }
+	        
+
+	
+	
+	function gallerypopupResult(result) {
+		
+        // alert('asdas');
+        	$("#gallery_profile_image_data").val(result.src);
+               var id= "<?=$this->session->userdata('member_id')?>";
+              confirm_gallery_upload(id); 
+	}
+
+
 </script>
 <script>
 

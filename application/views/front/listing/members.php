@@ -24,7 +24,9 @@ foreach ($get_all_members as $member): ?>
 
                     <ul class="nav nav-inline right-user-buttons ">
                        
+
                        <?php include 'member_sidebar.php';  ?>
+
                     </ul>
 
            
@@ -127,8 +129,7 @@ foreach ($get_all_members as $member): ?>
 		<div class="col-sm-2 right-user-buttons-outer p-0">
             <ul class="nav flex-column right-user-buttons ">                       
                 <?php include 'member_sidebar.php';  ?>
-            </ul>
-        </div>
+            </ul>        </div>
 			<!-----   Right  Buttons END ---->	
 		
 		

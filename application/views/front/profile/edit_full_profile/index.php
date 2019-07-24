@@ -5,6 +5,26 @@
         <div class="container">
             <?php foreach ($get_member as $member): ?>
                 <div class="row cols-md-space cols-sm-space cols-xs-space">
+<?php if (!empty($success_alert)): ?>
+                        <div class="col-12" id="success_lg_alert">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                <?=$success_alert?>
+                            </div>
+                        </div>
+                    <?php endif ?>
+                    <?php if (!empty($danger_alert)): ?>
+                        <div class="col-12" id="danger_lg_alert">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                                <?=$danger_alert?>
+                            </div>
+                        </div>
+                    <?php endif ?>
                     <div class="col-lg-4">
                         <?php include_once APPPATH.'views/front/profile/left_panel.php';?>
                     </div>
@@ -111,6 +131,8 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                         
                                         <div class="feature feature--boxed-border feature--bg-1 pt-3 pb-0 pl-3 pr-3 mb-3 border_top2x">
                                             <div id="edit_basic_info">
                                                 <div class="card-inner-title-wrapper  pt-0">
@@ -170,11 +192,83 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group has-feedback">
-                                                            <label for="date_of_birth" class="text-uppercase c-gray-light"><?php echo translate('date_of_birth')?></label>
-                                                            <input type="date" class="form-control no-resize" name="date_of_birth" value="<?php if(!empty($form_contents)){echo $form_contents['date_of_birth'];} else{echo date('Y-m-d', $member->date_of_birth);}?>">
-                                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                            <div class="help-block with-errors">
-                                                            </div>
+                                                            <label for="date_of_birth" class="text-uppercase c-gray-light"><?php echo translate('date_of_birth')?> </label>
+                                                            <?php
+                                                                    $month = [
+                                                                        '1' => 'January',
+                                                                        '2' => 'February',
+                                                                        '3' => 'March',
+                                                                        '4' => 'April',
+                                                                        '5' => 'May',
+                                                                        '6' => 'June',
+                                                                        '7' => 'July',
+                                                                        '8' => 'August',
+                                                                        '9' => 'September',
+                                                                        '10' => 'October',
+                                                                        '11' => 'November',
+                                                                        '12' => 'December'
+                                                                    ];
+                                                                    $current_year = date("Y");
+                                                                    
+                                                                    $old_date = date('d', $member->date_of_birth);
+                                                                    $old_month = date('m', $member->date_of_birth);
+                                                                    $old_year = date('Y', $member->date_of_birth);
+                                                                    ?>
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <select name="monthob" id="mobrth" class="form-control form-control-sm">
+                                                                            <option value="">Month</option>
+                                                                            <?php foreach ($month as $key => $value) : ?>
+                                                                            <option value="<?php echo $key; ?>" <?php if($key == $old_month) { echo "selected"; } ?>>
+                                                                                <?php echo $value; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <select name="dateob" id="dobrth" class="form-control form-control-sm">
+                                                                            <option value="">Date</option>
+                                                                            </select>
+                                                                            <input type="hidden" id="old_dob" value="<?php echo $old_date; ?>">
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <select name="yearob" id="yobrth" class="form-control form-control-sm">
+                                                                            <option value="">Year</option>
+                                                                            <?php for( $y = 1970; $y <= $current_year; $y++ ) { ?>
+                                                                            <option value = "<?php echo $y; ?>" <?php if($y == $old_year) { echo "selected"; } ?>>
+                                                                                <?php echo $y; ?>
+                                                                            </option>
+                                                                            <?php } ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <script>
+                                                                        $(document).ready(function() {
+                                                                            
+                                                                                var mobr = $('#mobrth').val();
+                                                                                var mon31 = ['1', '3', '5', '7','8', '10', '12'];
+                                                                                var mon30 = ['4', '6', '9', '11'];
+                                                                                if( $.inArray(mobr, mon31) != -1 ) {
+                                                                                    date_drop(31);
+                                                                                }
+                                                                                else if( $.inArray(mobr, mon30) != -1 ) {
+                                                                                    date_drop(30);
+                                                                                    
+                                                                                }   else if( mobr == 2 ) {
+                                                                                    date_drop(28);
+                                                                                }
+                                                                        });
+                                                                        function date_drop(nmbr_days) {
+                                                                            var old_dob = $('#old_dob').val();
+                                                                            var date_html = "<option>Date</option>";
+                                                                                    for( var i = 1; i <= nmbr_days; i++ ) {
+                                                                                        if( i == old_dob ) { var selected = "selected"; }   else { var selected = ""; }
+                                                                                        date_html += "<option value='"+i+"' "+selected+">"+i+"</option>";
+                                                                                    }
+                                                                                    $('#dobrth').html(date_html);
+                                                                        }
+                                                                    </script>
+                                                            <div class="help-block with-errors"></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -182,10 +276,10 @@
                                                             <label for="marital_status" class="text-uppercase c-gray-light"><?php echo translate('marital_status')?></label>
                                                             <?php
                                                                 if (!empty($form_contents)) {
-                                                                    echo $this->Crud_model->select_html('marital_status', 'marital_status', 'name', 'edit', 'form-control form-control-sm selectpicker', $form_contents['marital_status'], '', '', '');
+                                                                    echo $this->Crud_model->select_html('marital_status', 'marital_status', 'name', 'edit', 'form-control form-control-sm selectpicker edit_full_profile_marital_status_select', $form_contents['marital_status'], '', '', '');
                                                                 }
                                                                 else {
-                                                                    echo $this->Crud_model->select_html('marital_status', 'marital_status', 'name', 'edit', 'form-control form-control-sm selectpicker', $basic_info_data[0]['marital_status'], '', '', '');
+                                                                    echo $this->Crud_model->select_html('marital_status', 'marital_status', 'name', 'edit', 'form-control form-control-sm selectpicker edit_full_profile_marital_status_select', $basic_info_data[0]['marital_status'], '', '', '');
                                                                 }
                                                             ?> 
                                                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -194,7 +288,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="row edit_full_profile_number_children_select" style="display:<?php echo $basic_info_data[0]['marital_status'] == 1 ? 'none' : ''; ?>">
                                                     <div class="col-md-6">
                                                         <div class="form-group has-feedback">
                                                             <label for="number_of_children" class="text-uppercase c-gray-light"><?php echo translate('number_of_children')?></label>
@@ -204,7 +298,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                   <?php /* <div class="col-md-6">
                                                         <div class="form-group has-feedback">
                                                             <label for="area" class="text-uppercase c-gray-light"><?php echo translate('area')?></label>
                                                             <input type="text" class="form-control no-resize" name="area" value="<?php if(!empty($form_contents)){echo $form_contents['area'];} else{echo $basic_info_data[0]['area'];}?>">
@@ -213,6 +307,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    */?>
 
                                                 </div>
                                                 <div class="row">
@@ -237,6 +332,15 @@
                                                             <label for="mobile" class="text-uppercase c-gray-light"><?php echo translate('mobile')?></label>
                                                             <input type="hidden" name="old_mobile" value="<?=$get_member[0]->mobile?>">
                                                             <input type="text" class="form-control no-resize" name="mobile" value="<?=$get_member[0]->mobile?>">
+                                                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                                                            <div class="help-block with-errors"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group has-feedback">
+                                                            <label for="belongs_to" class="text-uppercase c-gray-light"><?php echo translate('belongs_to')?></label>
+                                                            <input type="hidden" name="old_belongs_to" value="<?=$get_member[0]->belongs_to?>">
+                                                            <input type="text" class="form-control no-resize" name="belongs_to" value="<?=$get_member[0]->belongs_to?>">
                                                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                                             <div class="help-block with-errors"></div>
                                                         </div>
@@ -367,7 +471,12 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group has-feedback">
                                                             <label for="highest_education" class="text-uppercase c-gray-light"><?php echo translate('highest_education')?></label>
-                                                            <input type="text" class="form-control no-resize" name="highest_education" value="<?php if(!empty($form_contents)){echo $form_contents['highest_education'];} else{echo $education_and_career_data[0]['highest_education'];}?>">
+                                                            <?php 
+
+                                                            echo $this->Crud_model->select_html('education_level', 'highest_education', 'education_level_name', 'edit', 'form-control form-control-sm selectpicker', $education_and_career_data[0]['highest_education'], '', '', '');
+
+                                                            ?>
+                                                            <?php/*<input type="text" class="form-control no-resize" name="highest_education" value="<?php if(!empty($form_contents)){echo $form_contents['highest_education'];} else{echo $education_and_career_data[0]['highest_education'];}?>">*/ ?>
                                                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                                             <div class="help-block with-errors">
                                                             </div>
@@ -1769,6 +1878,15 @@
 </section>
 <script>
     $(document).ready(function(){
+         $(".edit_full_profile_marital_status_select").on("change", 
+      function(e) {
+            var val = $(this).val();
+                    if (val == '1') {
+                        $(".edit_full_profile_number_children_select").hide();
+                    }else{
+                        $(".edit_full_profile_number_children_select").show();
+                    }
+        });
         $(".height_mask").inputmask({
             mask: "9.99",
             greedy: false,
@@ -1778,6 +1896,7 @@
                 }
             }
         });
+        
     });
 </script>
 <script>
@@ -1982,4 +2101,6 @@
             });
         }
     });
+    
+   
 </script>

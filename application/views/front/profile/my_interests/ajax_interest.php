@@ -1,4 +1,3 @@
-
     <table class="table table-sm table-striped table-hover table-bordered table-responsive">
         <thead>
         <tr>
@@ -28,6 +27,7 @@
         <tbody>
         <?php 
             $new_express_interest_members = array();
+            $express_interest_members = is_array($express_interest_members) ? $express_interest_members : array($express_interest_members);
             foreach ($express_interest_members as $member) {
                 if ($member->is_closed =='no') {
                     $new_express_interest_members[] = $member;

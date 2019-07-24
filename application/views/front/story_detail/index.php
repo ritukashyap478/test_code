@@ -1,3 +1,8 @@
+<?php 
+if(!empty($this->session->userdata['member_id'])) {
+	include_once APPPATH.'views/front/profile_nav.php';
+} ?>
+
 <section class="page-title page-title--style-1">
     <div class="container">
         <div class="row align-items-center">
@@ -10,7 +15,7 @@
 <section class="slice--offset sct-color-1">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <div class="block block-post">
 					<?php 
                         include_once'story_detail.php';

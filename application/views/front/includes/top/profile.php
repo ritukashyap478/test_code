@@ -4,10 +4,6 @@
 <link rel="stylesheet" href="<?=base_url()?>template/front/vendor/pace/css/pace-minimal.css" type="text/css">
 <!-- Bootstrap -->
 <link rel="stylesheet" href="<?=base_url()?>template/front/vendor/bootstrap/css/bootstrap.min.css" type="text/css">
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
 <!-- Plugins -->
 <link rel="stylesheet" href="<?=base_url()?>template/front/vendor/swiper/css/swiper.min.css">
 <link rel="stylesheet" href="<?=base_url()?>template/front/vendor/hamburgers/hamburgers.min.css" type="text/css">
@@ -23,6 +19,7 @@
 <link rel="stylesheet" href="<?=base_url()?>template/front/fonts/linea/basic/linea-icons.css" type="text/css">
 <link rel="stylesheet" href="<?=base_url()?>template/front/fonts/linea/ecommerce/linea-icons.css" type="text/css">
 <link rel="stylesheet" href="<?=base_url()?>template/front/fonts/linea/software/linea-icons.css" type="text/css">
+<link rel="stylesheet" href="<?=base_url()?>template/front/css/responsive.css" type="text/css">
 <!-- Global style (main) -->
 <?php
 	$theme_color = $this->db->get_where('frontend_settings', array('type' => 'theme_color'))->row()->value; 
@@ -50,10 +47,16 @@
 	}
 ?>
 <!-- Custom style - Remove if not necessary -->
-<link type="text/css" href="<?=base_url()?>template/front/css/custom-style.css" rel="stylesheet">
+<!--link type="text/css" href="<?=base_url()?>template/front/css/custom-style.css" rel="stylesheet"-->
+<link type="text/css" href="<?=base_url()?>template/front/css/croppie.css" rel="stylesheet">
+<link rel="stylesheet" href="<?=base_url()?>template/front/css/responsive.css" type="text/css">
+
 <!-- Favicon -->
 
 
 <!-- SCRIPTS -->
 <!-- Core -->
 <script src="<?=base_url()?>template/front/vendor/jquery/jquery.min.js"></script>
+
+
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>

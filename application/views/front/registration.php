@@ -59,7 +59,8 @@
             }
         ?>
         <!-- Custom style - Remove if not necessary -->
-        <link type="text/css" href="<?=base_url()?>template/front/css/custom-style.css" rel="stylesheet">
+        <!--link type="text/css" href="<?=base_url()?>template/front/css/custom-style.css" rel="stylesheet"-->
+        <link type="text/css" href="<?=base_url()?>template/front/css/responsive.css" rel="stylesheet">
         <!-- Favicon -->
         <script src="<?=base_url()?>template/front/vendor/jquery/jquery.min.js"></script>
         
@@ -87,58 +88,61 @@
             $registration_image_data = json_decode($registration_image, true);
 
         ?>
-        <section class="slice-lg has-bg-cover bg-size-cover" style="background-image: url(<?=base_url()?>uploads/registration_image/<?=$registration_image_data[0]['image']?>); background-position: bottom bottom;">
+        <section class="has-bg-cover bg-size-cover login-register" style="background-image: url(<?=base_url()?>uploads/registration_image/<?=$registration_image_data[0]['image']?>); background-position: bottom bottom;">
             <span class="mask mask-dark--style-2"></span>
             <div class="container">
-                <div class="row cols-xs-space align-items-center text-center text-md-left">
+                <div class="row cols-xs-space align-items-center  text-md-left">
                     <div class="col-lg-6 col-md-10 ml-auto mr-auto">
-                        <div class="form-card form-card--style-2 z-depth-3-top">
+                        <div class="form-card form-card--style-2 z-depth-3-top login-register-form form-white">
                             <div class="form-body">
                                 <div class="text-center px-2">
-                                    <h4 class="heading heading-4 strong-400 mb-4 font_light"><?=translate('create_your_account')?></h4>
+                                    <h4 class="heading heading-3"><?=translate('create_your_account')?></h4>
                                 </div>
                                 <form class="form-default mt-4" id="register_form" method="post" action="<?=base_url()?>home/registration/add_info">
+                                    
+ <input type="hidden" name="timezone" class="reg-time-zone-hidden" value="">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label font_light"><?php echo translate('first_name')?></label>
-                                                <input type="text" class="form-control form-control-sm" name="first_name" value="<?php if(!empty($form_contents)){echo $form_contents['first_name'];}?>" autofocus>
+                                                <label class="control-label"><?php echo translate('first_name')?></label>
+                                                <input type="text" class="form-control form-control-lg" name="first_name" value="<?php if(!empty($form_contents)){echo $form_contents['first_name'];}?>" autofocus>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label font_light"><?php echo translate('last_name')?></label>
-                                                <input type="text" class="form-control form-control-sm" name="last_name" value="<?php if(!empty($form_contents)){echo $form_contents['last_name'];}?>">
+                                                <label class="control-label "><?php echo translate('last_name')?></label>
+                                                <input type="text" class="form-control form-control-lg" name="last_name" value="<?php if(!empty($form_contents)){echo $form_contents['last_name'];}?>">
                                             </div>
                                         </div>
                                     </div>
+									
+									
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label font_light"><?php echo translate('gender')?></label>
+                                                <label class="control-label "><?php echo translate('gender')?></label>
                                                 <?php 
                                                     if (!empty($form_contents)) {
-                                                        echo $this->Crud_model->select_html('gender', 'gender', 'name', 'edit', 'form-control form-control-sm selectpicker', $form_contents['gender'], '', '', '');
+                                                        echo $this->Crud_model->select_html('gender', 'gender', 'name', 'edit', 'form-control form-control-lg selectpicker', $form_contents['gender'], '', '', '');
                                                     }
                                                     else {
-                                                        echo $this->Crud_model->select_html('gender', 'gender', 'name', 'add', 'form-control form-control-sm selectpicker', '', '', '', '');
+                                                        echo $this->Crud_model->select_html('gender', 'gender', 'name', 'add', 'form-control form-control-lg selectpicker', '', '', '', '');
                                                     }
                                                 ?>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label font_light"><?php echo translate('email')?></label>
-                                                <input type="email" class="form-control form-control-sm" name="email" value="<?php if(!empty($form_contents)){echo $form_contents['email'];}?>">
+                                                <label class="control-label "><?php echo translate('email')?></label>
+                                                <input type="email" class="form-control form-control-lg" name="email" value="<?php if(!empty($form_contents)){echo $form_contents['email'];}?>">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label font_light"><?php echo translate('date_of_birth')?></label>
+									
+									<div class="form-group">
+                                                <label class="control-label "><?php echo translate('date_of_birth')?></label>
 
-                                                <!-- <input type="text" class="form-control form-control-sm datepicker_birth" name="date_of_birth" value="<?php if(!empty($form_contents)){echo $form_contents['date_of_birth'];}?>"> -->
+                                                <!-- <input type="text" class="form-control form-control-lg datepicker_birth" name="date_of_birth" value="<?php if(!empty($form_contents)){echo $form_contents['date_of_birth'];}?>"> -->
                                                 <?php
                                                 $month = [
                                                     '1' => 'January',
@@ -157,9 +161,9 @@
                                                 $current_year = date("Y");
                                                 ?>
                                                 <div class="row">
-                                                    <div class="col-md-4">
-                                                        <select name="monthob" id="mobrth" class="form-control form-control-sm">
-                                                        <option value="">Month</option>
+                                                    <div class="col-4 pr-0">
+                                                        <select name="monthob" id="mobrth" class="form-control form-control-lg">
+                                                        <option value="">MM</option>
                                                         <?php foreach ($month as $key => $value) : ?>
                                                         <option value="<?php echo $key; ?>">
                                                             <?php echo $value; ?>
@@ -167,14 +171,14 @@
                                                         <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <select name="dateob" id="dobrth" class="form-control form-control-sm">
-                                                        <option value="">Date</option>
+                                                    <div class="col-4 pr-0">
+                                                        <select name="dateob" id="dobrth" class="form-control form-control-lg">
+                                                        <option value="">DD</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <select name="yearob" id="yobrth" class="form-control form-control-sm">
-                                                        <option value="">Year</option>
+                                                    <div class="col-4 pr-0">
+                                                        <select name="yearob" id="yobrth" class="form-control form-control-lg">
+                                                        <option value="">YYYY</option>
                                                         <?php for( $y = 1970; $y <= $current_year; $y++ ) { ?>
                                                         <option value = "<?php echo $y; ?>">
                                                             <?php echo $y; ?>
@@ -208,50 +212,50 @@
                                                     
                                                 });
                                                 function date_drop(nmbr_days) {
-                                                    var date_html = "<option>Date</option>";
+                                                    var date_html = "<option>DD</option>";
                                                             for( var i = 1; i <= nmbr_days; i++ ) {
                                                                 date_html += "<option>"+i+"</option>";
                                                             }
                                                             $('#dobrth').html(date_html);
                                                 }
                                             </script>
+									
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label "><?php echo translate('on_behalf')?></label>
+                                                <?php 
+                                                    if (!empty($form_contents)) {
+                                                        echo $this->Crud_model->select_html('on_behalf', 'on_behalf', 'name', 'edit', 'form-control form-control-lg selectpicker', $form_contents['on_behalf'], '', '', '');
+                                                    }
+                                                    else {
+                                                        echo $this->Crud_model->select_html('on_behalf', 'on_behalf', 'name', 'add', 'form-control form-control-lg selectpicker', '', '', '', '');
+                                                    }
+                                                ?>
+                                            </div>
 
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label font_light"><?php echo translate('mobile')?></label>
-                                                <input type="text" class="form-control form-control-sm" name="mobile" value="<?php if(!empty($form_contents)){echo $form_contents['mobile'];}?>">
+                                                <label class="control-label "><?php echo translate('mobile')?></label>
+                                                <input type="text" class="form-control form-control-lg" name="mobile" value="<?php if(!empty($form_contents)){echo $form_contents['mobile'];}?>">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label font_light"><?php echo translate('on_behalf')?></label>
-                                                <?php 
-                                                    if (!empty($form_contents)) {
-                                                        echo $this->Crud_model->select_html('on_behalf', 'on_behalf', 'name', 'edit', 'form-control form-control-sm selectpicker', $form_contents['on_behalf'], '', '', '');
-                                                    }
-                                                    else {
-                                                        echo $this->Crud_model->select_html('on_behalf', 'on_behalf', 'name', 'add', 'form-control form-control-sm selectpicker', '', '', '', '');
-                                                    }
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </div>
+                                  
                                      
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label font_light"><?php echo translate('password')?></label>
-                                                <input type="password" class="form-control form-control-sm" name="password">
+                                                <label class="control-label "><?php echo translate('password')?></label>
+                                                <input type="password" class="form-control form-control-lg" name="password">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group has-feedback">
-                                                <label class="control-label font_light"><?php echo translate('confirm_password')?>                                                    
+                                                <label class="control-label "><?php echo translate('confirm_password')?>                                                    
                                                 </label>
-                                                <input type="password" class="form-control form-control-sm" name="confirm_password">
+                                                <input type="password" class="form-control form-control-lg" name="confirm_password">
                                             </div>
                                         </div>
                                     </div>
@@ -267,7 +271,7 @@
                                     <?php
                                         }
                                     ?>
-                                    <div class="mt-1 col-12">
+                                    <div class="form-group">
                                         <small class="c-gray-light"><?=translate('by_clicking_REGISTER_you_agree_to_our')?> <a href="<?=base_url()?>home/terms_and_conditions" class="c-gray-light"><u><?=translate('terms_and_conditions')?></u></a></small>
                                         <div class="mt-2" style="color: #ccc !important">
                                             <?php
@@ -287,13 +291,13 @@
                                             }
                                         </style>
                                     </div>
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-styled btn-sm btn-base-1 z-depth-2-bottom mt-2" style="width: 100%">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-styled btn-lg btn-base-1 z-depth-2-bottom mt-2" style="width: 100%">
                                             <?php echo translate('register')?>
                                         </button>
                                         <div class="row pt-3">
                                             <div class="col-12 text-center" style="font-size: 12px;">
-                                                <a class="c-gray-light" href="<?=base_url()?>home/login" class=""><?php echo translate('log_in_page')?></a>
+                                                <a class="c-gray-light" href="<?=base_url()?>login" class=""><?php echo translate('log_in_page')?></a>
                                             </div>
                                         </div>
                                     </div>
@@ -344,10 +348,16 @@
         <script src="<?=base_url()?>template/front/vendor/lightgallery/js/lg-video.js"></script>
         <!-- App JS -->
         <script src="<?=base_url()?>template/front/js/wpx.app.js"></script>
-
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js">
+    </script>
         <script type="text/javascript">
             $(document).ready(function(){
                 $('.top_bar_right').load('<?php echo base_url(); ?>home/top_bar_right');
+                
+                var tz = jstz.determine(); // Determines the time zone of the browser client
+            var timezone = tz.name(); //'Asia/Kolhata' for Indian Time.
+           // console.log('sd'+timezone);
+            var val = $(".reg-time-zone-hidden").val(timezone);
             });	    
 	    
         </script>

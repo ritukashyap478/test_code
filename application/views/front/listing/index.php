@@ -1,11 +1,8 @@
-<style>
-    @media (max-width: 576px) {
-        .listing-image {
-            height: 330px !important;
-        }
-    }
-    
-</style>
+<?php 
+if(!empty($this->session->userdata['member_id'])) {
+	include_once APPPATH.'views/front/profile_nav.php';
+} ?>
+
 <section class="page-title page-title--style-1">
     <div class="container">
         <div class="row align-items-center">
@@ -15,7 +12,7 @@
         </div>
     </div>
 </section>
-<section class="slice sct-color-1">
+<section class="slice sct-color-2">
     <div class="container">
         <div class="row">
 			<?php  $advance_search_position = $this->db->get_where('frontend_settings', array('type' => 'advance_search_position'))->row()->value;

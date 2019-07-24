@@ -1456,4 +1456,72 @@ class Crud_model extends CI_Model
         }
         return false;
     }
+
+public function get_online_status($id) 
+   {
+
+     $member_last_visit = $this->get_type_name_by_id('member', $id, 'last_visit');
+  if($member_last_visit == null) {
+   return "Offline";
+}
+            $current_time = strtotime(date("Y-m-d H:i:s")); // CURRENT TIME
+
+            $last_visit = strtotime($member_last_visit); // LAST VISITED TIME
+            
+            $time_period = floor(round(abs($current_time - $last_visit)/60,2)); //CALCULATING MINUTES
+            
+            //IF YOU WANT TO CALCULATE DAYS THEN USER THIS
+            //$time_period = floor(round(abs($current_time - $last_visit)/60,2)/1440);
+            
+           
+            if ($time_period <= 10){
+                return "Online";
+            } else {
+               return "Online ".$this->time_elapsed_string($member_last_visit);
+            }
+   }
+
+   public function time_elapsed_string($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'year',
+        'm' => 'month',
+        'w' => 'week',
+        'd' => 'day',
+        'h' => 'hour',
+        'i' => 'minute',
+        's' => 'second',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
+   }
+
+   public function isCompleted($id)
+    {
+        $profile= $this->db->get_where("member", array("member_id" => $id))->row();
+        $profile_basic_details = json_decode($profile->basic_info, true);
+
+        $spiritual_and_social_background_data= json_decode($profile->spiritual_and_social_background, true);
+        $present_address_data= json_decode($profile->present_address, true);
+        $education_and_career_data = json_decode($profile->education_and_career, true);
+
+        if($profile->height > 0 && $profile->introduction != "" && $profile_basic_details[0]['marital_status'] != "" && $profile->belongs_to != "" && !empty($spiritual_and_social_background_data[0]['religion']) && !empty($spiritual_and_social_background_data[0]['caste']) && !empty($present_address_data[0]['country']) && !empty($education_and_career_data[0]['highest_education']) && !empty($education_and_career_data[0]['occupation']) && $profile->is_completed == 1) {
+            return true;
+        }
+        return false;
+    }
 }
