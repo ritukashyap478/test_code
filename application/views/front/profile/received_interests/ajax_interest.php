@@ -29,8 +29,10 @@
             $new_express_interest_members = array();
             $express_interest_members = is_array($express_interest_members) ? $express_interest_members : array($express_interest_members);
             foreach ($express_interest_members as $member) {
-                if ($member->is_closed =='no') {
-                    $new_express_interest_members[] = $member;
+                if($member) {
+                    if ($member->is_closed == 'no') {
+                        $new_express_interest_members[] = $member;
+                    }
                 }
             }
 
@@ -95,7 +97,7 @@
 
                                 if($interest_status_array[$data->member_id] == 'pending') {
                                 ?>
-                                    <div class="text-center pt-1 text_<?=$row['by']?>">
+                                    <div class="text-center pt-1 text_<?php if(isset($row)){ echo $row['by']; }?>">
                                         <button type="button" class="btn btn-sm btn-primary pt-0 pb-0" id="accept_<?=$data->member_id?>" onclick="confirm_accept(<?=$data->member_id?>)"><?php echo translate('accept')?></button>
                                         <button type="button" class="btn btn-sm btn-danger pt-0 pb-0" id="reject_<?=$data->member_id?>" onclick="confirm_reject(<?=$data->member_id?>)"><?php echo translate('reject')?></button>
                                     </div>

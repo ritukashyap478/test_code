@@ -481,12 +481,16 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group has-feedback">
                                                             <label for="highest_education" class="text-uppercase c-gray-light"><?php echo translate('highest_education')?></label>
-                                                            <?php 
+                                                            <?php
+                                                            if(isset($form_contents['highest_education'])){
+                                                                $form_contents['highest_education'] = $form_contents['highest_education'];
+                                                            }else{
+                                                                $form_contents['highest_education'] = '';
+                                                            }
 
                                                             echo $this->Crud_model->select_html('education_level', 'highest_education', 'education_level_name', 'edit', 'form-control form-control-sm selectpicker', $form_contents['highest_education'], '', '', '');
 
-                                                            ?>
-                                                            <?php/*<input type="text" class="form-control no-resize" name="highest_education" value="<?php if(!empty($form_contents)){echo $form_contents['highest_education'];} else{echo $education_and_career_data[0]['highest_education'];}?>">*/ ?>
+                                                           /*<input type="text" class="form-control no-resize" name="highest_education" value="<?php if(!empty($form_contents)){echo $form_contents['highest_education'];} else{echo $education_and_career_data[0]['highest_education'];}?>">*/ ?>
                                                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                                             <div class="help-block with-errors">
                                                             </div>
@@ -495,7 +499,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group has-feedback">
                                                             <label for="occupation" class="text-uppercase c-gray-light"><?php echo translate('occupation')?></label>
-                                                            <input type="text" class="form-control no-resize" name="occupation" value="<?php if(!empty($form_contents)){echo $form_contents['occupation'];} else{echo $education_and_career_data[0]['occupation'];}?>">
+                                                            <input type="text" class="form-control no-resize" name="occupation" value="<?php if(!empty($form_contents['occupation'])){echo $form_contents['occupation'];} else{echo $education_and_career_data[0]['occupation'];}?>">
                                                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                                             <div class="help-block with-errors">
                                                             </div>
@@ -519,7 +523,7 @@
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group has-feedback">
-                                                            <textarea name="introduction" class="form-control no-resize" rows="6"><?php if(!empty($form_contents)){echo $form_contents['introduction'];} else{echo $member->introduction;}?></textarea>
+                                                            <textarea name="introduction" class="form-control no-resize" rows="6"><?php if(!empty($form_contents['introduction'])){echo $form_contents['introduction'];} else{echo $member->introduction;}?></textarea>
                                                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                                             <div class="help-block with-errors">
                                                             </div>

@@ -52,7 +52,13 @@
 									<b><?php echo translate('sub-Caste')?>:</b>
 								</div>
 								<div class="col-6 p-0">
-									<?php echo $this->db->get_where('sub_caste',array('sub_caste_id'=>$spiritual_and_social_background_data[0]['sub_caste']))->row()->sub_caste_name;?>
+
+									<?php
+                                    $subcast = $this->db->get_where('sub_caste',array('sub_caste_id'=>$spiritual_and_social_background_data[0]['sub_caste']))->row();
+                                    if($subcast){
+                                    echo $subcast->sub_caste_name;
+                                    }
+                                    ?>
 								</div>
 					
 					
