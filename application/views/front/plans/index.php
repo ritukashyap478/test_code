@@ -37,7 +37,8 @@ if(!empty($this->session->userdata['member_id'])) {
                     <?php /*if ($value->plan_id == 1) { $package_class = ""; } else { $package_class = "active"; }*/ ?>
                     <?php 
 $package_class = "";
-                    if(!empty($this->session->userdata('member_id'))) {  
+
+                    if(!empty($this->session->userdata('member_id'))) {
                         $user_membership =  $this->Crud_model->get_type_name_by_id('member', $this->session->userdata('member_id'), 'membership');
                         
                         if($user_membership > 1) {
@@ -98,14 +99,16 @@ $package_class = "";
                                      <?php } ?>
                                 </ul>
                                 <div class="py-2 text-center mb-2">
-                                    <?php 
+                                    <?php
+                                    //if(!empty($this->session->userdata('member_id'))) {
                                     if ($value->plan_id != 1) {
                                         $purchase_link = base_url()."home/plans/subscribe/".$value->plan_id;
                                     }
                                     else {
                                         $purchase_link = "#";
                                     }
-                                    
+
+                                    if(!empty($this->session->userdata('member_id'))) {
                                     if($value->plan_id == 1) {?>
                                      <a href="#" class="btn btn-styled btn-sm"><i class="ion-checkmark-round"></i> <span><?php echo translate('default_package') ?></span>
                                     </a>
@@ -114,14 +117,19 @@ $package_class = "";
                                     <a href="#" class="btn btn-styled btn-sm btn-base-1 btn-outline btn-circle">
                                         <span class="<?=$package_class?>"><?php echo translate('current_package')?></span>
                                     </a>
-                                    <?php }elseif($user_membership < $value->plan_id){ ?>                                    
+                                    <?php }
+
+
+                                    elseif($user_membership < $value->plan_id){ ?>
                                     <a href="<?=$purchase_link?>" class="btn btn-styled btn-sm btn-base-1 btn-outline btn-circle">
                                         <span class="<?=$package_class?>"><?php echo translate('get_this_package')?></span>
                                     </a>
                                     <?php }else{?>
                                      <a href="javascript:void(0)"  class="disabled btn btn-styled btn-sm btn-base-1 btn-outline btn-circle">
-                                        <span class=""><?php echo translate('get_this_package')?></span>
+                                         <span class=""><?php echo translate('get_this_package')?></span>
                                     </a>
+                                    <?php } }else {  ?>
+                                    <a href="<?=base_url()?>login"><?php echo translate('get_this_package')?></a>
                                     <?php } ?>
                                 </div>
                             </div>

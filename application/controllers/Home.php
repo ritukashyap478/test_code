@@ -406,7 +406,7 @@ class Home extends CI_Controller {
      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
      $response = curl_exec($ch);
      curl_close($ch);
-	 
+
 	 echo '<pre>';
 	 print_r($response);
 	 echo '</pre>';

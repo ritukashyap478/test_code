@@ -745,7 +745,12 @@ class Crud_model extends CI_Model
         $this->benchmark->mark_time();
         $permission = $this->db->get_where('permission', array(
             'codename' => $codename
-        ))->row()->permission_id;
+        ))->row();
+        if($permission){
+            $permission = $permission->permission_id;
+        }
+
+
         if ($admin->role == 1) {
             return true;
         } else {
