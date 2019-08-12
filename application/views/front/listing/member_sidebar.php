@@ -74,7 +74,7 @@ else { ?>
         <?php }elseif($interest_text == translate('rejected')) { ?>
             <i class="fa fa-check-circle"></i><?php echo translate('you_have_rejected_the_interest')?>
         <?php }else{ ?>
-            <a id="interest_a_<?=$member->member_id?>" <?php if ($interest_onclick == 1){?>onclick="return confirm_interest(<?=$member->member_id?>)"<?php }?> style="<?=$interest_style?>" class="<?php echo $interest_class ?> interest_a_<?=$member->member_id?>">
+            <a id="interest_a_<?=$member->member_id?>" <?php if ($interest_onclick == 1){?>onclick="return confirm_interest(<?=$member->member_id?>)"<?php }?> style="<?php if(isset($interest_style)) { echo $interest_style; }?>" class="<?php echo $interest_class ?> interest_a_<?=$member->member_id?>">
             <span id="interest_<?=$member->member_id?>">
             <i class="ion-ios-heart"></i> 
             </span>

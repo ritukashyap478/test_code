@@ -28,7 +28,11 @@
 								<b><?php echo translate('age');?>:</b>
 							</div>
 							<div class="col-6 p-0">
-							<?=$partner_expectation_data[0]['partner_min_age']?>- <?=$partner_expectation_data[0]['partner_max_age']?>
+                                <?php
+                                if(isset($partner_expectation_data[0]['partner_min_age']) || isset($partner_expectation_data[0]['partner_max_age'])) {
+                                    echo $partner_expectation_data[0]['partner_min_age'].' - '.$partner_expectation_data[0]['partner_max_age'];
+                                }?>
+
 							</div>
                         </div>
                     
@@ -37,7 +41,12 @@
 								<b><?php echo translate('height');?>:</b>
 							</div>
 							<div class="col-6 p-0">
-								<?=$partner_expectation_data[0]['partner_min_height']?>-<?=$partner_expectation_data[0]['partner_max_height']?> Feet
+
+                                <?php
+                                if(isset($partner_expectation_data[0]['partner_min_height']) || isset($partner_expectation_data[0]['partner_max_height'])) {
+                                    echo $partner_expectation_data[0]['partner_min_height'].' - '.$partner_expectation_data[0]['partner_max_height'];
+                                }?>
+                                Feet
 							</div>
                         </div>
 						
@@ -46,7 +55,11 @@
 								<b><?php echo translate('weight');?>:</b>
 							</div>
 							<div class="col-6 p-0">
-							<?=$partner_expectation_data[0]['partner_min_weight']?>- <?=$partner_expectation_data[0]['partner_max_weight']?>KG
+                                <?php
+                                if(isset($partner_expectation_data[0]['partner_min_weight']) || isset($partner_expectation_data[0]['partner_max_weight'])) {
+                                    echo $partner_expectation_data[0]['partner_min_weight'].' - '.$partner_expectation_data[0]['partner_max_weight'];
+                                }?>
+							KG
 							</div>
                         </div>
                     
@@ -93,7 +106,12 @@
 								<b><?php echo translate('caste_/_sect');?>:</b>
 							</div>
 							<div class="col-6 p-0">
-								<?=$this->db->get_where('caste', array('caste_id'=>$partner_expectation_data[0]['partner_caste']))->row()->caste_name;?>
+
+								<?php $cast_name = $this->db->get_where('caste', array('caste_id'=>$partner_expectation_data[0]['partner_caste']))->row();
+                                    if($cast_name){
+                                     echo $cast_name->caste_name;
+                                    }
+                                ?>
 							</div>						
                         </div>
 						
@@ -102,7 +120,15 @@
 								<b><?php echo translate('sub_caste');?>:</b>
 							</div>
 							<div class="col-6 p-0">
-								<?=$this->db->get_where('sub_caste', array('sub_caste_id'=>$partner_expectation_data[0]['partner_sub_caste']))->row()->sub_caste_name;?>
+                                <?php
+                                if(isset($partner_expectation_data[0]['partner_sub_caste'])) {
+                                    $sub_cast_name = $this->db->get_where('sub_caste', array('sub_caste_id' => $partner_expectation_data[0]['partner_sub_caste']))->row();
+                                    if ($sub_cast_name) {
+                                        echo $sub_cast_name->sub_caste_name;
+                                    }
+                                }
+                                ?>
+
 							</div>
                         </div>
                     

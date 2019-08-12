@@ -29,8 +29,10 @@
             $new_express_interest_members = array();
             $express_interest_members = is_array($express_interest_members) ? $express_interest_members : array($express_interest_members);
             foreach ($express_interest_members as $member) {
-                if ($member->is_closed =='no') {
-                    $new_express_interest_members[] = $member;
+                if($member) {
+                    if ($member->is_closed == 'no') {
+                        $new_express_interest_members[] = $member;
+                    }
                 }
             }
             if ($new_express_interest_members == NULL) {

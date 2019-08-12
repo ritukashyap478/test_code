@@ -1,3 +1,4 @@
+
 <div id="info_spiritual_and_social_background">
     <div class="card-inner-title-wrapper pt-0">
         <h3 class="card-inner-title pull-left">
@@ -22,7 +23,14 @@
 					
 					 <div class="row">								  
 					<div class="col-6 p-0"><b><?php echo translate('sub-Caste')?>:</b></div>
-					<div class="col-6 p-0"><?php echo $this->db->get_where('sub_caste',array('sub_caste_id'=>$spiritual_and_social_background_data[0]['sub_caste']))->row()->sub_caste_name;?></div>								  
+					<div class="col-6 p-0">
+                        <?php
+                        $sub_cast_name = $this->db->get_where('sub_caste',array('sub_caste_id'=>$spiritual_and_social_background_data[0]['sub_caste']))->row();
+                        if($sub_cast_name) {
+                            echo $sub_cast_name->sub_caste_name;
+                        }?>
+
+                    </div>
 					</div>
 
 					 <div class="row">								  

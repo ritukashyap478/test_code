@@ -52,9 +52,22 @@
                             <!-- Success Alert Content -->
                         </div>
                     </div>
+                    <?php $class = "";
+                    $display = "";
+                     
+                    if (!empty($current_tab)) 
+                    {
+                            if ( isset($current_tab_title)) {
+                                $class = 'hidden-onmobile';
+                                if($current_tab_title == "Messaging")
+                                {
+                                      $display = 'none';  
+                                }
+                            }
+                    
+                    }?>
 
-            <div class="col-lg-4 sidebar-outer 
-          <?php echo !empty($current_tab) ? $current_tab_title != "" ? 'hidden-onmobile' : '' : ''; ?>" style="display:<?php echo $current_tab_title == "Messaging" ? 'none' : '' ?>;">
+            <div class="col-lg-4 sidebar-outer <?php  echo $class; ?>" style="display:<?php echo $display; ?>">
                                 <?php include_once APPPATH.'views/front/profile/left_panel.php'; ?>
                                 </div>
                     
@@ -465,7 +478,7 @@ definitions: {
             success: function(response) {
                 /*clearInterval(message_interval);
                 var message_interval =  setInterval(function(){
-                                            $("#msg_body").load('<?=base_url()?>home/get_messages/'+thread_id);
+                                            $("#msg_body").load( /*base_url()*home/get_messages/'+thread_id);
                                         }, 4000);*/
                 $("#msg_body").removeAttr("style");
                 $("#message_text").removeAttr('disabled');

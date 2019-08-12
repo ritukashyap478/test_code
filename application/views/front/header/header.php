@@ -174,7 +174,7 @@
 <li ><a href="<?=base_url()?>home/profile"><?php echo translate('view_profile')?></a></li>
 											<li ><a href="<?=base_url()?>home/profile/my-interests"><?php echo translate('sent_interests')?></a></li>
                     <li><a href="<?=base_url()?>home/profile/received-interests"><?php echo translate('received_interests')?></a></li>
-                    <li class="<?php echo $_SERVER[REQUEST_URI] == '/home/profile/shortlist' ? 'active' : ''; ?>"> <a href="<?=base_url()?>home/profile/shortlist"><?php echo translate('shortlist')?></a> </li>
+                    <li class="<?php echo $_SERVER['REQUEST_URI'] == '/home/profile/shortlist' ? 'active' : ''; ?>"> <a href="<?=base_url()?>home/profile/shortlist"><?php echo translate('shortlist')?></a> </li>
                     <li><a href="<?=base_url()?>home/profile/followed-users"><?php echo translate('followed_users')?></a></li>
                     <li><a href="<?=base_url()?>home/profile/messaging-list"> <?php echo translate('messaging')?></a></li>
                     <li><a  href="<?=base_url()?>home/profile/ignored-list"><?php echo translate('ignored_list')?> </a></li>
