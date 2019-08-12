@@ -30,8 +30,10 @@
         $new_ignored_members_data = array();
                     $ignored_members_data = is_array($ignored_members_data) ? $ignored_members_data : array($ignored_members_data);
         foreach ($ignored_members_data as $member) {
-            if ($member->is_closed =='no') {
+            if($member){
+                if ($member->is_closed =='no') {
                 $new_ignored_members_data[] = $member;
+                }
             }
         }
         if ($new_ignored_members_data == NULL) {

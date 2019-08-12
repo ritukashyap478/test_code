@@ -90,7 +90,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 <div id="test"></div>
-<?php $logged_in_user_time_zone = $this->Crud_model->get_type_name_by_id('member', $this->session->userdata['member_id'], 'timezone');?>
+<?php if(isset($this->session->userdata['member_id']))
+        {
+            $this->session->userdata['member_id'] = $this->session->userdata['member_id'];
+        }
+        else{
+            $this->session->userdata['member_id'] = '';
+        }
+
+$logged_in_user_time_zone = $this->Crud_model->get_type_name_by_id('member', $this->session->userdata['member_id'], 'timezone');?>
 
  <input type="hidden" name="time_zone" class="time-zone-hidden" value="<?php echo $logged_in_user_time_zone ?>">
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js">

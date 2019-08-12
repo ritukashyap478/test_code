@@ -3,7 +3,7 @@
     $partner_expectation = $this->Crud_model->get_type_name_by_id('member', $this->session->userdata['member_id'], 'partner_expectation');
 
     $partner_expectation_data = json_decode($partner_expectation, true);
-
+   //echo "<pre>"; print_r($partner_expectation_data); echo "</pre>"; die;
 ?>
 
 <div class="feature feature--boxed-border feature--bg-1 pt-3 pb-0 pl-3 pr-3 mb-3 border_top2x">
@@ -66,11 +66,21 @@
                                 <b><?php echo translate('age')?>:</b>
                             </div>
                             <div class="col-6 p-0">
-                                <?=$partner_expectation_data[0]['partner_min_age']?>- <?=$partner_expectation_data[0]['partner_max_age']?>
+
+                                <?php
+
+                                //echo "ddd";
+                                if(isset($partner_expectation_data[0]))
+                                {
+                                   // echo $partner_expectation_data[0]['partner_min_age'].' - '.$partner_expectation_data[0]['partner_max_age'];
+                                   echo $partner_expectation_data[0]['partner_min_age'].'  -  '.$partner_expectation_data[0]['partner_max_age'];
+                                  // echo $partner_expectation_data[0]['partner_age'];
+                                }
+                                ?> Year
                             </div>
 						
 							
-                            </div>
+                        </div>
                     
                       
 						
@@ -79,7 +89,12 @@
                                 <b><?php echo translate('height')?>:</b>
                             </div>
                             <div class="col-6 p-0">
-                                <?=$partner_expectation_data[0]['partner_min_height']?>-<?=$partner_expectation_data[0]['partner_max_height']?> Feet
+
+                                <?php
+                                if(isset($partner_expectation_data[0])) {
+                                    echo $partner_expectation_data[0]['partner_min_height'] . '  -   ' . $partner_expectation_data[0]['partner_max_height'];
+                                    //echo $partner_expectation_data[0]['partner_height'];
+                                } ?> Feet
                             </div>
 						
 							
@@ -94,7 +109,12 @@
                                 <b><?php echo translate('weight')?>:</b>
                             </div>
                             <div class="col-6 p-0">
-                                <?=$partner_expectation_data[0]['partner_min_weight']?>- <?=$partner_expectation_data[0]['partner_max_weight']?>KG
+                                <?php
+                                if(isset($partner_expectation_data[0])) {
+                                    echo $partner_expectation_data[0]['partner_min_weight'] . ' - ' . $partner_expectation_data[0]['partner_max_weight'];
+                                    //echo $partner_expectation_data[0]['partner_weight'];
+                                }
+                                ?>KG
                             </div>
 						
                         </div>
@@ -174,7 +194,14 @@
 
                             <div class="col-6 p-0">
 
-                                <?=$this->db->get_where('caste', array('caste_id'=>$partner_expectation_data[0]['partner_caste']))->row()->caste_name;?>
+                                <?php
+                                $subcast =$this->db->get_where('caste', array('caste_id'=>$partner_expectation_data[0]['partner_caste']))->row();
+                                if($subcast){
+                                    echo $subcast->caste_name;
+                                }
+                                ?>
+
+
 
                             </div>
 
@@ -193,7 +220,14 @@
 
                             <div class="col-6 p-0">
 
-                                <?=$this->db->get_where('sub_caste', array('sub_caste_id'=>$partner_expectation_data[0]['partner_sub_caste']))->row()->sub_caste_name;?>
+                                <?php
+                                if(isset($partner_expectation_data[0]['partner_sub_caste'])) {
+                                    $subcastname = $this->db->get_where('sub_caste', array('sub_caste_id' => $partner_expectation_data[0]['partner_sub_caste']))->row();
+                                    if ($subcastname) {
+                                        echo $subcastname->sub_caste_name;
+                                    }
+                                }
+                                ?>
 
                             </div>
 			  
@@ -323,7 +357,11 @@
 
                             <div class="col-6 p-0">
 
-                                <?=$this->Crud_model->get_type_name_by_id('family_status', $partner_expectation_data[0]['partner_family_status'], 'name')?>                                
+                                <?php
+                                if(isset($partner_expectation_data[0]['partner_family_status'])) {
+                                    echo $this->Crud_model->get_type_name_by_id('family_status', $partner_expectation_data[0]['partner_family_status'], 'name');
+                               }
+                                ?>
 
                             </div>
 						
@@ -524,7 +562,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
                         <label for="partner_age_min" class="text-uppercase c-gray-light"><?php echo translate('minimum_age')?></label>
-                        <input type="text" class="form-control no-resize" name="partner_min_age" value="<?=$partner_expectation_data[0]['partner_min_age']?>">
+                        <input type="text" class="form-control no-resize" name="partner_min_age" value="<?php if(isset($partner_expectation_data[0]['partner_min_age'])) { echo $partner_expectation_data[0]['partner_min_age']; } ?>">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <div class="help-block with-errors"></div>
                     </div>
@@ -532,7 +570,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
                         <label for="partner_age_max" class="text-uppercase c-gray-light"><?php echo translate('maximum_age')?></label>
-                        <input type="text" class="form-control no-resize" name="partner_max_age" value="<?=$partner_expectation_data[0]['partner_max_age']?>">
+                        <input type="text" class="form-control no-resize" name="partner_max_age" value="<?php if(isset($partner_expectation_data[0]['partner_max_age'])) { echo $partner_expectation_data[0]['partner_max_age']; } ?>">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <div class="help-block with-errors"></div>
                     </div>
@@ -543,7 +581,7 @@
                     <div class="form-group has-feedback">
                         <label for="height" class="text-uppercase c-gray-light"><?php echo translate('minimum_height')?></label>
                         <div class="input-group">
-                            <input type="text" class="form-control no-resize height_mask" aria-describedby="text-feet" name="partner_min_height" value="<?=$partner_expectation_data[0]['partner_min_height'] ?>">
+                            <input type="text" class="form-control no-resize height_mask" aria-describedby="text-feet" name="partner_min_height" value="<?php if(isset($partner_expectation_data[0]['partner_min_height'])) { echo $partner_expectation_data[0]['partner_min_height']; } ?>">
                             <div class="input-group-append">
                                 <span class="input-group-text small ml-2" id="text-feet"><?=translate('feet')?></span>
                             </div>
@@ -556,7 +594,7 @@
                     <div class="form-group has-feedback">
                         <label for="height" class="text-uppercase c-gray-light"><?php echo translate('maximum_height')?></label>
                         <div class="input-group">
-                            <input type="text" class="form-control no-resize height_mask" aria-describedby="text-feet" name="partner_max_height" value="<?=$partner_expectation_data[0]['partner_max_height'] ?>">
+                            <input type="text" class="form-control no-resize height_mask" aria-describedby="text-feet" name="partner_max_height" value="<?php if(isset($partner_expectation_data[0]['partner_max_height'])) { echo $partner_expectation_data[0]['partner_max_height']; } ?>">
                             <div class="input-group-append">
                                 <span class="input-group-text small ml-2" id="text-feet"><?=translate('feet')?></span>
                             </div>
@@ -570,7 +608,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
                         <label for="partner_weight_min" class="text-uppercase c-gray-light"><?php echo translate('minimum_weight')?></label>
-                        <input type="text" class="form-control no-resize" name="partner_min_weight" value="<?=$partner_expectation_data[0]['partner_min_weight']?>">
+                        <input type="text" class="form-control no-resize" name="partner_min_weight" value="<?php if(isset($partner_expectation_data[0]['partner_min_weight'])) { echo $partner_expectation_data[0]['partner_min_weight']; }?>">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <div class="help-block with-errors"></div>
                     </div>
@@ -578,7 +616,7 @@
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
                         <label for="partner_weight" class="text-uppercase c-gray-light"><?php echo translate('maximum_weight')?></label>
-                        <input type="text" class="form-control no-resize" name="partner_max_weight" value="<?=$partner_expectation_data[0]['partner_max_weight']?>">
+                        <input type="text" class="form-control no-resize" name="partner_max_weight" value="<?php if(isset($partner_expectation_data[0]['partner_max_weight'])) { echo $partner_expectation_data[0]['partner_max_weight']; } ?>">
                         <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         <div class="help-block with-errors"></div>
                     </div>
@@ -663,7 +701,12 @@
                         <label for="sub_caste" class="text-uppercase c-gray-light"><?php echo translate('sub_caste')?></label>
                         <?php
                             if (!empty($partner_expectation_data[0]['partner_caste'])) {
-                                echo $this->Crud_model->select_html('sub_caste', 'partner_sub_caste', 'sub_caste_name', 'edit', 'form-control form-control-sm selectpicker prefered_sub_caste_edit', $partner_expectation_data[0]['partner_sub_caste'], 'caste_id', $partner_expectation_data[0]['partner_caste'], '');  
+                                if(isset($partner_expectation_data[0]['partner_sub_caste'])) {
+                                    $partner_expectation_data[0]['partner_sub_caste'] = $partner_expectation_data[0]['partner_sub_caste'];
+                                }else{
+                                    $partner_expectation_data[0]['partner_sub_caste'] = '';
+                                }
+                                echo $this->Crud_model->select_html('sub_caste', 'partner_sub_caste', 'sub_caste_name', 'edit', 'form-control form-control-sm selectpicker prefered_sub_caste_edit', $partner_expectation_data[0]['partner_sub_caste'], 'caste_id', $partner_expectation_data[0]['partner_caste'], '');
                             } else {
                             ?>
                                 <select class="form-control form-control-sm selectpicker prefered_sub_caste_edit" name="partner_sub_caste">
@@ -764,9 +807,15 @@
 
                         <label for="partner_family_status" class="text-uppercase c-gray-light"><?php echo translate('partner_family_status')?></label>
 
-                        <?php 
+                        <?php
 
-                        echo $this->Crud_model->select_html('family_status', 'partner_family_status', 'name', 'edit', 'form-control form-control-sm selectpicker', $partner_expectation_data[0]['partner_family_status'], '', '', '');
+                        if(isset($partner_expectation_data[0]['partner_family_status'])) {
+                            $partner_expectation_data[0]['partner_family_status'] = $partner_expectation_data[0]['partner_family_status'];
+                        }else{
+                            $partner_expectation_data[0]['partner_family_status'] = '';
+                        }
+                            echo $this->Crud_model->select_html('family_status', 'partner_family_status', 'name', 'edit', 'form-control form-control-sm selectpicker', $partner_expectation_data[0]['partner_family_status'], '', '', '');
+
 
                         ?>
                        <?php /* <input type="text" class="form-control no-resize" name="partner_personal_value" value="<?=$partner_expectation_data[0]['partner_personal_value']?>">*/?>

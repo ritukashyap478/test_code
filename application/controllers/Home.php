@@ -851,15 +851,21 @@ class Home extends CI_Controller {
             $partner_expectation = $this->Crud_model->get_type_name_by_id('member', $member_id, 'partner_expectation');
             $partner_expectation_data = json_decode($partner_expectation, true);
 
+            //print_r($partner_expectation_data); die;
+           $partner_expectation_data = $partner_expectation_data[0];
+
             $marital_status = $partner_expectation_data['partner_marital_status'];
             $religion = $partner_expectation_data['partner_religion'];
             $caste    = $partner_expectation_data['partner_caste'];
             $sub_caste= $partner_expectation_data['partner_sub_caste'];
-            $language = $partner_expectation_data['partner_language'];
+            //$language = $partner_expectation_data['partner_language'];
+            $language = $partner_expectation_data['partner_mother_tongue'];
+
             $country  = $partner_expectation_data['prefered_country'];
             $state    = $partner_expectation_data['prefered_state'];
-            $city     = $partner_expectation_data['prefered_city'];
-            $profession = $partner_expectation_data['profession'];
+            //$city     = $partner_expectation_data['prefered_city'];
+            //$profession = $partner_expectation_data['profession'];
+            $profession = $partner_expectation_data['partner_profession'];
                         
             $aged_from = $partner_expectation_data['partner_min_age'] - 1;
             if (!empty($aged_from)) {
@@ -1068,6 +1074,7 @@ class Home extends CI_Controller {
 
             $config['total_rows'] = count($all_array);
         }
+//print_r($config); die;
 
         // pagination
         $config['base_url'] = $config_base_url;
@@ -1084,7 +1091,9 @@ class Home extends CI_Controller {
         $config['first_link'] = '&laquo;';
         $config['first_tag_open'] = '<li class="page-item"><a class="page-link" onClick="' . $function . '">';
         $config['first_tag_close'] = '</a></li>';
+        $config['total_rows'] = 0;
 
+        //print_r($config); die;
         $rr = ($config['total_rows'] - 1) / $config['per_page'];
 
         $last_start = floor($rr) * $config['per_page'];
@@ -2428,7 +2437,7 @@ class Home extends CI_Controller {
     								'postal_code'			=>	$this->input->post('postal_code')
 			                        );
             	$data['present_address'] = json_encode($present_address);
-                $loc_array  = $this->findLatLong($present_address);
+                $loc_array  = $this->findLatLong($present_address[0]);
                 $data['latitude'] = $loc_array['latitude'];
                 $data['longitude'] = $loc_array['longitude'];
             	// ------------------------------------Present Address------------------------------------ //
@@ -2475,6 +2484,8 @@ class Home extends CI_Controller {
             }
         }
         elseif ($para1=="update_all") {
+
+           // print_r($this->input->post('mobile')); die;
             $this->form_validation->set_rules('introduction', 'Introduction', 'required');
 
             $this->form_validation->set_rules('first_name', 'First Name', 'required|min_length[2]|max_length[16]');
@@ -2496,10 +2507,9 @@ class Home extends CI_Controller {
             $this->form_validation->set_rules('highest_education', 'Highest Education', 'required');
             $this->form_validation->set_rules('occupation', 'Occupation', 'required');
 
-            $this->form_validation->set_rules('mother_tongue', 'Mother Tongue', 'required');
-
-            $this->form_validation->set_rules('birth_country', 'Birth Country', 'required');
-            $this->form_validation->set_rules('citizenship_country', 'Citizenship Country', 'required');
+           // $this->form_validation->set_rules('mother_tongue', 'Mother Tongue', 'required');
+            //$this->form_validation->set_rules('birth_country', 'Birth Country', 'required');
+          // $this->form_validation->set_rules('citizenship_country', 'Citizenship Country', 'required');
 
             $this->form_validation->set_rules('religion', 'Religion', 'required');
 
@@ -2508,8 +2518,16 @@ class Home extends CI_Controller {
             $this->form_validation->set_rules('monthob', 'Month of Birth', 'required');
             $this->form_validation->set_rules('yearob', 'Year of Birth', 'required');
 
-            $this->form_validation->set_rules('permanent_country', 'Permanent Country', 'required');
-            $this->form_validation->set_rules('permanent_state', 'Permanent State', 'required');
+
+            $this->form_validation->set_rules('partner_min_age', 'Minimum Age', 'greater_than[18]|less_than[60]');
+            $this->form_validation->set_rules('partner_max_age', 'Maximum Age', 'less_than[60]|greater_than['.$this->input->post('partner_min_age').']');
+            $this->form_validation->set_rules('partner_min_height', 'Minimum Height', 'greater_than[3]|less_than[8]');
+            $this->form_validation->set_rules('partner_max_height', 'Maximum Height', 'less_than[8]|greater_than['.$this->input->post('partner_min_height').']');
+            $this->form_validation->set_rules('partner_min_weight', 'Minimum Weight', 'greater_than[30]|less_than[200]');
+            $this->form_validation->set_rules('partner_max_weight', 'Maximum Weight', 'less_than[200]|greater_than['.$this->input->post('partner_min_weight').']');
+
+            //$this->form_validation->set_rules('permanent_country', 'Permanent Country', 'required');
+            //$this->form_validation->set_rules('permanent_state', 'Permanent State', 'required');
             // $this->form_validation->set_rules('permanent_city', 'Permanent City', 'required');
 
             if ($this->form_validation->run() == FALSE) {
@@ -2558,7 +2576,7 @@ class Home extends CI_Controller {
     								'postal_code'			=>	$this->input->post('postal_code')
 			                        );
             	$data['present_address'] = json_encode($present_address);
- $loc_array  = $this->findLatLong($present_address);
+ $loc_array  = $this->findLatLong($present_address[0]);
 $data['latitude'] = $loc_array['latitude'];
 $data['longitude'] = $loc_array['longitude'];
             	// ------------------------------------Present Address------------------------------------ //
@@ -2687,7 +2705,47 @@ $data['longitude'] = $loc_array['longitude'];
                 // ------------------------------------ Additional Personal Details------------------------------------ //
 
                 // ------------------------------------ Partner Expectation------------------------------------ //
+
+
                 $partner_expectation[] = array('general_requirement'    =>  $this->input->post('general_requirement'),
+                    'partner_age'                       =>  $this->input->post('partner_age'),
+                    'partner_height'                    =>  $this->input->post('partner_height'),
+                    'partner_weight'                    =>  $this->input->post('partner_weight'),
+
+                    'partner_min_age'                       =>  $this->input->post('partner_min_age'),
+                    'partner_min_height'                    =>  $this->input->post('partner_min_height'),
+                    'partner_min_weight'                    =>  $this->input->post('partner_min_weight'),
+
+
+                    'partner_max_age'                       =>  $this->input->post('partner_max_age'),
+                    'partner_max_height'                    =>  $this->input->post('partner_max_height'),
+                    'partner_max_weight'                    =>  $this->input->post('partner_max_weight'),
+
+
+                    'partner_marital_status'            =>  $this->input->post('partner_marital_status'),
+                    'with_children_acceptables'         =>  $this->input->post('with_children_acceptables'),
+                    'partner_country_of_residence'      =>  $this->input->post('partner_country_of_residence'),
+                    'partner_religion'                  =>  $this->input->post('partner_religion'),
+                    'partner_caste'                     =>  $this->input->post('partner_caste'),
+                    'partner_sub_caste'                 =>  $this->input->post('partner_sub_caste'),
+                    'partner_complexion'                =>  $this->input->post('partner_complexion'),
+                    'partner_education'                 =>  $this->input->post('partner_education'),
+                    'partner_profession'                =>  $this->input->post('partner_profession'),
+                    'partner_drinking_habits'           =>  $this->input->post('partner_drinking_habits'),
+                    'partner_smoking_habits'            =>  $this->input->post('partner_smoking_habits'),
+                    'partner_diet'                      =>  $this->input->post('partner_diet'),
+                    'partner_body_type'                 =>  $this->input->post('partner_body_type'),
+                    'partner_personal_value'            =>  $this->input->post('partner_personal_value'),
+                    'manglik'                           =>  $this->input->post('manglik'),
+                    'partner_any_disability'            =>  $this->input->post('partner_any_disability'),
+                    'partner_mother_tongue'             =>  $this->input->post('partner_mother_tongue'),
+                    'partner_family_value'              =>  $this->input->post('partner_family_value'),
+                    'prefered_country'                  =>  $this->input->post('prefered_country'),
+                    'prefered_state'                    =>  $this->input->post('prefered_state'),
+                    'prefered_status'                   =>  $this->input->post('prefered_status'),
+                    'partner_family_status'             =>  $this->input->post('partner_family_status'),
+                );
+               /* $partner_expectation[] = array('general_requirement'    =>  $this->input->post('general_requirement'),
                                     'partner_age'                       =>  $this->input->post('partner_age'),  
                                     'partner_height'                    =>  $this->input->post('partner_height'),
                                     'partner_weight'                    =>  $this->input->post('partner_weight'),
@@ -2711,12 +2769,14 @@ $data['longitude'] = $loc_array['longitude'];
                                     'prefered_country'                  =>  $this->input->post('prefered_country'),
                                     'prefered_state'                    =>  $this->input->post('prefered_state'),
                                     'prefered_status'                   =>  $this->input->post('prefered_status')
-                                    );
+                                    );*/
                 $data['partner_expectation'] = json_encode($partner_expectation);
+                //print_r($data['partner_expectation']); die;
                 // ------------------------------------ Partner Expectation------------------------------------ //
 
                 $this->db->where('member_id', $this->session->userdata('member_id'));
                 $result = $this->db->update('member', $data);
+                //print_r($result);die;
                 recache();
                 if ($result) {
                     $this->session->set_flashdata('alert', 'edit');
@@ -3214,10 +3274,7 @@ $data['longitude'] = $loc_array['longitude'];
                                 'partner_max_age'                       =>  $this->input->post('partner_max_age'),  
                                 'partner_max_height'                    =>  $this->input->post('partner_max_height'),
                                 'partner_max_weight'                    =>  $this->input->post('partner_max_weight'),
-                                
-                                'partner_age'                       =>  $this->input->post('partner_age'),  
-                                'partner_height'                    =>  $this->input->post('partner_height'),
-                                'partner_weight'                    =>  $this->input->post('partner_weight'),
+
                                 'partner_marital_status'            =>  $this->input->post('partner_marital_status'),
                                 'with_children_acceptables'         =>  $this->input->post('with_children_acceptables'),
                                 'partner_country_of_residence'      =>  $this->input->post('partner_country_of_residence'),
@@ -4209,7 +4266,7 @@ $data['longitude'] = $loc_array['longitude'];
             $safe = 'yes';
             $char = '';
             foreach ($_POST as $row) {
-                if (preg_match('/[\'^":()}{#~><>|=+¬]/', $row, $match)) {
+                if (preg_match('/[\'^":()}{#~><>|=+ï¿½]/', $row, $match)) {
                     $safe = 'no';
                     $char = $match[0];
                 }
@@ -5074,7 +5131,7 @@ $data['longitude'] = $loc_array['longitude'];
             $safe = 'yes';
             $char = '';
             foreach($_POST as $check=>$row){
-                if (preg_match('/[\'^":()}{#~><>|=¬]/', $row,$match))
+                if (preg_match('/[\'^":()}{#~><>|=ï¿½]/', $row,$match))
                 {
                     if($check !== 'password' && $check !== 'confirm_password')
                     {
@@ -5657,7 +5714,7 @@ $address_string = implode(',', array_filter($address_string));
                  'longitude' => ''
                ];   
    //  try{
-      $url = "http://maps.google.com/maps/api/geocode/json?address=".urlencode($address_string )."&sensor=false&key=";
+      /*$url = "http://maps.google.com/maps/api/geocode/json?address=".urlencode($address_string )."&sensor=false&key=";
      $ch = curl_init();
      curl_setopt($ch, CURLOPT_URL, $url);
      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -5668,11 +5725,11 @@ $address_string = implode(',', array_filter($address_string));
      curl_close($ch);
 
      $response_a = json_decode($response);
-//print_r($response_a);exit;
+
       $array = [
                  'latitude' => $response_a->results[0]->geometry->location->lat,
                  'longitude' => $response_a->results[0]->geometry->location->lng
-               ];   
+               ];   */
 //     echo $lat = $response_a->results[0]->geometry->location->lat;
   //   echo "<br />";
     // echo $long = $response_a->results[0]->geometry->location->lng;
@@ -5759,37 +5816,39 @@ $address_string = implode(',', array_filter($address_string));
     public function updatePlan($id) 
     {
         $member = $this->db->get_where("member", array("member_id" => $id))->row();
+        //print_r($member); die;
+        if($member) {
+            if ($member->membership_valid_till <= date("Y-m-d H:i:s") && $member->membership == 2) {
+                $package_info = json_decode($member->package_info, true);
+                $payment = $this->db->get_where("package_payment", array("package_payment_id" => $package_info[0]['payment_id']))->row();
+                $data['expire'] = 'yes';
+                $data['expire_timestamp'] = time();
+                $this->db->where('package_payment_id', $payment->package_payment_id);
+                $this->db->update('package_payment', $data);
+                recache();
 
-        if ($member->membership_valid_till <= date("Y-m-d H:i:s") && $member->membership_id == 2) {              
-           $package_info = json_decode($member->package_info, true);     
-            $payment = $this->db->get_where("package_payment", array("package_payment_id" => $package_info[0]['payment_id']))->row();
-            $data['expire'] = 'yes';
-            $data['expire_timestamp'] = time();
-            $this->db->where('package_payment_id', $payment->package_payment_id);
-            $this->db->update('package_payment', $data);
-            recache();
+                $package_info_old = $package_info[0];
 
-            $package_info_old = $package_info[0];
-            
-            $notifications = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'notifications');
-            $notification = json_decode($notifications, true);
-            $notification[] = array('by'=>$member, 'type'=>'membership_expired', 'package_info'=> $package_info_old, 'time'=>time());
+                $notifications = $this->Crud_model->get_type_name_by_id('member', $member->member_id, 'notifications');
+                $notification = json_decode($notifications, true);
+                $notification[] = array('by' => $member, 'type' => 'membership_expired', 'package_info' => $package_info_old, 'time' => time());
 
-            $data1['membership'] = 1;
-            $data1['express_interest'] = $prev_express_interest + $this->db->get_where('plan', array('plan_id' => $payment->plan_id))->row()->express_interest;
-            $data1['direct_messages'] = $prev_direct_messages + $this->db->get_where('plan', array('plan_id' => $payment->plan_id))->row()->direct_messages;
-            $data1['photo_gallery'] = $prev_photo_gallery + $this->db->get_where('plan', array('plan_id' => $payment->plan_id))->row()->photo_gallery;
-            $data1['notifications'] = json_encode($notification);
-            $package_info[] = array("current_package" => "Default","package_price" =>"0","payment_type" => "None");
-            
-            $data1['package_info'] = json_encode($package_info);
-            $this->db->where('member_id', $member->member_id);
-            $this->db->update('member', $data1);
-            recache();
-            if ($this->Email_model->membership_expired($member->member_id, $package_info_old)) {
-                //$msg = 'done_but_not_sent';
-            } else {
-                //$msg = 'done_and_sent';
+                $data1['membership'] = 1;
+                $data1['express_interest'] = $prev_express_interest + $this->db->get_where('plan', array('plan_id' => $payment->plan_id))->row()->express_interest;
+                $data1['direct_messages'] = $prev_direct_messages + $this->db->get_where('plan', array('plan_id' => $payment->plan_id))->row()->direct_messages;
+                $data1['photo_gallery'] = $prev_photo_gallery + $this->db->get_where('plan', array('plan_id' => $payment->plan_id))->row()->photo_gallery;
+                $data1['notifications'] = json_encode($notification);
+                $package_info[] = array("current_package" => "Default", "package_price" => "0", "payment_type" => "None");
+
+                $data1['package_info'] = json_encode($package_info);
+                $this->db->where('member_id', $member->member_id);
+                $this->db->update('member', $data1);
+                recache();
+                if ($this->Email_model->membership_expired($member->member_id, $package_info_old)) {
+                    //$msg = 'done_but_not_sent';
+                } else {
+                    //$msg = 'done_and_sent';
+                }
             }
         }
     }
@@ -5907,7 +5966,7 @@ $address_string = implode(',', array_filter($address_string));
         $isValidChecksum = "FALSE";
         $paramList = $_POST;
         $paytmChecksum = isset($_POST["CHECKSUMHASH"]) ? $_POST["CHECKSUMHASH"] : ""; //Sent by Paytm pg
-        //Verify all parameters received from Paytm pg to your application. Like MID received from paytm pg is same as your application’s MID, TXN_AMOUNT and ORDER_ID are same as what was sent by you to Paytm PG for initiating transaction etc.
+        //Verify all parameters received from Paytm pg to your application. Like MID received from paytm pg is same as your applicationï¿½s MID, TXN_AMOUNT and ORDER_ID are same as what was sent by you to Paytm PG for initiating transaction etc.
         $isValidChecksum = verifychecksum_e($paramList, PAYTM_MERCHANT_KEY, $paytmChecksum); //will return TRUE or FALSE string.
         if($isValidChecksum == "TRUE") {    
             if ($_POST['STATUS'] == 'TXN_SUCCESS') {

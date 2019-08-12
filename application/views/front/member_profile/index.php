@@ -327,15 +327,19 @@ if(!empty($this->session->userdata['member_id'])) {
                                 }
                                 ?>
                                 <?php
-                                if ($this->db->get_where('frontend_settings', array('type' => 'hobbies_and_interest'))->row()->value == "yes") {
-                                    if ($privacy_status_data[0]['hobbies_and_interest'] == 'yes') {
-                                ?>
-                                <div class="feature feature--boxed-border feature--bg-1 pt-3 pb-0 pl-3 pr-3 mb-3 border_top2x">
-                                    <div id="section_hobbies_and_interest">
-                                        <?php include_once 'hobbies_and_interest.php'; ?>
+                                $hobbies =$this->db->get_where('frontend_settings', array('type' => 'hobbies_and_interest'))->row();
+                                if($hobbies){
+                                    if ($hobbies->value == "yes") {
+
+                                        if ($privacy_status_data[0]['hobbies_and_interest'] == 'yes') {
+                                    ?>
+                                    <div class="feature feature--boxed-border feature--bg-1 pt-3 pb-0 pl-3 pr-3 mb-3 border_top2x">
+                                        <div id="section_hobbies_and_interest">
+                                            <?php include_once 'hobbies_and_interest.php'; ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <?php
+                                    <?php
+                                        }
                                     }
                                 }
                                 ?>
@@ -418,15 +422,18 @@ if(!empty($this->session->userdata['member_id'])) {
                                 }
                                 ?>
                                 <?php
-                                if ($this->db->get_where('frontend_settings', array('type' => 'family_info'))->row()->value == "yes") {
-                                    if ($privacy_status_data[0]['family_info'] == 'yes') {
-                                ?>
-                                <div class="feature feature--boxed-border feature--bg-1 pt-3 pb-0 pl-3 pr-3 mb-3 border_top2x">
-                                    <div id="section_family_info">
-                                        <?php include_once 'family_info.php'; ?>
-                                    </div>
-                                </div>
-                                <?php
+                                $family_info1 = $this->db->get_where('frontend_settings', array('type' => 'family_info'))->row();
+                                if($family_info1) {
+                                    if ($family_info1->value == "yes") {
+                                        if ($privacy_status_data[0]['family_info'] == 'yes') {
+                                            ?>
+                                            <div class="feature feature--boxed-border feature--bg-1 pt-3 pb-0 pl-3 pr-3 mb-3 border_top2x">
+                                                <div id="section_family_info">
+                                                    <?php include_once 'family_info.php'; ?>
+                                                </div>
+                                            </div>
+                                            <?php
+                                        }
                                     }
                                 }
                                 ?>
