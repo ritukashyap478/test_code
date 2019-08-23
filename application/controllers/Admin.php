@@ -560,7 +560,8 @@ class Admin extends CI_Controller {
 		                $nestedData['member_since'] = date('d/m/Y H:i:s A', strtotime($member->member_since));
 		                $nestedData['member_status'] = $acnt_status_button;
 		                $nestedData['options'] = "<a href='".base_url()."admin/members/".$para1."/view_member/".$member->member_id."' id='demo-dt-view-btn' class='btn btn-primary btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title='".translate('view_profile')."' ><i class='fa fa-eye'></i></a>
-							<a href='#' id='demo-dt-delete-btn' data-target='#package_modal' data-toggle='modal' class='btn btn-info btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title='".translate('packages')."' onclick='view_package(".$member->member_id.")'><i class='fa fa-object-ungroup'></i></a> ".$block_button."<button data-target='#delete_modal' data-toggle='modal' class='btn btn-danger btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title='".translate('delete_member')."' onclick='delete_member(".$member->member_id.")'><i class='fa fa-trash'></i></button>";
+							<a href='#' id='demo-dt-delete-btn' data-target='#package_modal' data-toggle='modal' class='btn btn-info btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title='".translate('packages')."' onclick='view_package(".$member->member_id.")'><i class='fa fa-object-ungroup'></i></a> ".$block_button."<button data-target='#delete_modal' data-toggle='modal' class='btn btn-danger btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title='".translate('delete_member')."' onclick='delete_member(".$member->member_id.")'><i class='fa fa-trash'></i></button>
+							<a href='".base_url()."admin/members/".$para1."/view_images/".$member->member_id."' id='demo-dt-view-btn' class='btn btn-primary btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title='".translate('view_images')."' ><i class='fa fa-picture-o'></i></a>";
 		                
 		                $data[] = $nestedData;
 		                // if ($dir == 'asc') { $i++; } elseif ($dir == 'desc') { $i--; }
@@ -596,6 +597,13 @@ class Admin extends CI_Controller {
 					$page_data['bottom'] = "members/members.php";
 					$page_data['get_free_member_by_id'] = $this->db->get_where("member", array("membership" => 1, "member_id" => $para3))->result();
 				}
+                elseif ($para2=="view_images") {
+                    $page_data['top'] = "members/members.php";
+                    $page_data['folder'] = "members";
+                    $page_data['file'] = "view_images.php";
+                    $page_data['bottom'] = "members/members.php";
+                    $page_data['get_free_member_by_id'] = $this->db->get_where("member", array("membership" => 1, "member_id" => $para3))->result();
+                }
 				elseif ($para2=="edit_member") {
 					$page_data['top'] 		= "members/members.php";
 					$page_data['folder'] 	= "members";
@@ -629,6 +637,13 @@ class Admin extends CI_Controller {
 					$page_data['bottom'] = "members/members.php";	
 					$page_data['get_premium_member_by_id'] = $this->db->get_where("member", array("membership" => 2, "member_id" => $para3))->result();			
 				}
+                elseif ($para2=="view_images") {
+                    $page_data['top'] = "members/members.php";
+                    $page_data['folder'] = "members";
+                    $page_data['file'] = "view_images.php";
+                    $page_data['bottom'] = "members/members.php";
+                    $page_data['get_premium_member_by_id'] = $this->db->get_where("member", array("membership" => 2, "member_id" => $para3))->result();
+                }
 				elseif ($para2=="edit_member") {
 					$page_data['top'] 		= "members/members.php";
 					$page_data['folder'] 	= "members";
@@ -1443,6 +1458,58 @@ class Admin extends CI_Controller {
 		$this->db->update('member', $data);
 		recache();
 	}
+
+    function images_verified($para1,$para2)
+    {
+
+        $profile_image = $this->db->get_where('member', array('member_id' => $para2))->row()->profile_image;
+        $newdata = json_decode($profile_image, true);
+
+        //print_r($para1); echo "===="; print_r($para2); die;
+        if ($para1 == 'no') {
+            $newdata[0]['verified'] = "yes";
+            $data['profile_image'] = json_encode($newdata);
+            $this->session->set_flashdata('alert', 'Verified');
+        }
+        elseif ($para1 == 'yes') {
+            $newdata[0]['verified'] = "no";
+            $data['profile_image'] = json_encode($newdata);
+            $this->session->set_flashdata('alert', 'Unverified');
+        }
+
+        $this->db->where('member_id', $para2);
+        $this->db->update('member', $data);
+        recache();
+    }
+
+    function gallery_images_verified($para1,$para2)
+    {
+        $profile_image = $this->db->get_where('member', array('member_id' => $para2))->row()->gallery;
+        $newdata = json_decode($profile_image, true);
+        if ($para1 == 'no') {
+            $gdata = array();
+            foreach ($newdata as $ndata) {
+                $ndata['verified'] = "yes";
+                $gdata[] = $ndata;
+            }
+            $data['gallery'] = json_encode($gdata);
+            $this->session->set_flashdata('alert', 'Verified');
+        }
+        elseif ($para1 == 'yes') {
+            $gdata = array();
+            foreach ($newdata as $ndata) {
+                $ndata['verified'] = "no";
+                $gdata[] = $ndata;
+            }
+            $data['gallery'] = json_encode($gdata);
+            $this->session->set_flashdata('alert', 'Unverified');
+        }
+
+
+        $this->db->where('member_id', $para2);
+        $this->db->update('member', $data);
+        recache();
+    }
 
 	function member_delete($para1){
 		$data['member_id'] = $para1;

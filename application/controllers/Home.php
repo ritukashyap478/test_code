@@ -3358,7 +3358,7 @@ $data['longitude'] = $loc_array['longitude'];
                 $uri =  substr($img_data ,strpos($img_data ,",")+1);
                 file_put_contents($file_name, base64_decode($uri));
                 $this->Crud_model->img_thumb('profile', $id, $ext);
-                $images[] = array('profile_image' => 'profile_' . $id . $ext, 'thumb' => 'profile_' . $id . '_thumb' . $ext);
+                $images[] = array('profile_image' => 'profile_' . $id . $ext, 'thumb' => 'profile_' . $id . '_thumb' . $ext , 'verified' => 'no');
                 $data['profile_image'] = json_encode($images);
 
                 $this->db->where('member_id', $this->session->userdata('member_id'));
@@ -3688,6 +3688,7 @@ $data['longitude'] = $loc_array['longitude'];
                             $gallery_data[] = array( 'index'    =>  $new_index,
                                                     'title'     =>  $this->input->post('title'),
                                                     'image'     =>  $file_name,
+                                                    'verified'  => 'no',
                                             );
                             // print_r($gallery_data);
                             $data['gallery'] = json_encode($gallery_data);
@@ -3695,7 +3696,8 @@ $data['longitude'] = $loc_array['longitude'];
                         } else {
                             $gallery[] = array( 'index'     =>  $new_index,
                                             'title'     =>  $this->input->post('title'),
-                                            'image'     =>  $file_name
+                                            'image'     =>  $file_name,
+                                            'verified'  => 'no',
                                     );
                             $data['gallery'] = json_encode($gallery);
                             // print_r($data['gallery']);
