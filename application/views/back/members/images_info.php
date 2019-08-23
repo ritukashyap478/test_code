@@ -64,32 +64,36 @@
                                 ?>
 
                                 <table class="table table-condenced">
+
+                                    <?php  foreach ($gimages as $gimage) {
+
+                                        ?>
                                     <tr>
                                         <td>
-                                           <?php  foreach ($gimages as $gimage) { ?>
 
-                                            <img src="<?=base_url()?>uploads/gallery_image/<?=$gimage->image?>" class='img-sm'>
-                                            <?php }  ?>
+
+                                            <img src="<?= base_url() ?>uploads/gallery_image/<?= $gimage->image ?>"
+                                                 class='img-sm'>
+                                            <?php ?>
 
                                         </td>
                                         <td>
                                             <?php
-                                            if($gimages[0]->verified == 'no')
-                                            {
-                                                $verified_button = "<button data-target='#g_image_modal' data-toggle='modal' class='btn btn-dark btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title= '".translate('verified')."' onclick='galleryImageVerified(\"".$gimages[0]->verified."\", ".$value->member_id.")'><i class='fa fa-ban'></i></button>
+                                            if ($gimage->verified == 'no') {
+                                                $verified_button = "<button data-target='#g_image_modal' data-toggle='modal' class='btn btn-dark btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title= '" . translate('verified') . "' onclick='galleryImageVerified(\"" . $gimage->index . "\",\"" . $gimage->verified . "\", " . $value->member_id . ")'><i class='fa fa-ban'></i></button>
                                             ";
-                                            }
-                                            elseif ($gimages[0]->verified == 'yes') {
-                                                $verified_button = "<button data-target='#g_image_modal' data-toggle='modal' class='btn btn-success btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title='".translate('unverified')."' onclick='galleryImageVerified(\"".$gimages[0]->verified."\", ".$value->member_id.")'><i class='fa fa-check'></i></button>
+                                            } else {
+                                                $verified_button = "<button data-target='#g_image_modal' data-toggle='modal' class='btn btn-success btn-xs add-tooltip' data-toggle='tooltip' data-placement='top' title='" . translate('unverified') . "' onclick='galleryImageVerified(\"" . $gimage->index . "\",\"" . $gimage->verified . "\", " . $value->member_id . ")'><i class='fa fa-check'></i></button>
                                             ";
                                             }
 
                                             echo $verified_button;
-                                            ?>
+                                             ?>
                                         </td>
                                     </tr>
+                                    <?php } ?>
                                 </table>
-                            <?php } else { echo "No Images Found."; } ?>
+                            <?php  } else { echo "No Images Found."; } ?>
 
 			            </div>
 			        </div>			

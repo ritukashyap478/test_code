@@ -1482,28 +1482,24 @@ class Admin extends CI_Controller {
         recache();
     }
 
-    function gallery_images_verified($para1,$para2)
+    function gallery_images_verified($para1,$para2,$para3)
     {
         $profile_image = $this->db->get_where('member', array('member_id' => $para2))->row()->gallery;
         $newdata = json_decode($profile_image, true);
-        if ($para1 == 'no') {
-            $gdata = array();
-            foreach ($newdata as $ndata) {
+        $gdata = array();
+        foreach ($newdata as $ndata) {
+            if ($para1 == 'no' && $para3 == $ndata['index']) {
                 $ndata['verified'] = "yes";
-                $gdata[] = $ndata;
+                $this->session->set_flashdata('alert', 'Verified');
             }
-            $data['gallery'] = json_encode($gdata);
-            $this->session->set_flashdata('alert', 'Verified');
-        }
-        elseif ($para1 == 'yes') {
-            $gdata = array();
-            foreach ($newdata as $ndata) {
+            elseif ($para1 == 'yes' && $para3 == $ndata['index']){
                 $ndata['verified'] = "no";
-                $gdata[] = $ndata;
+                $this->session->set_flashdata('alert', 'Unverified');
             }
-            $data['gallery'] = json_encode($gdata);
-            $this->session->set_flashdata('alert', 'Unverified');
+            $gdata[] = $ndata;
+
         }
+        $data['gallery'] = json_encode($gdata);
 
 
         $this->db->where('member_id', $para2);

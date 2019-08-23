@@ -105,7 +105,7 @@
             <div class="modal-body">
                 <p><?php echo translate('are_you_sure_you_want_to')?> "<b id="g_block_type"></b>" <?php echo translate('the_images?')?>?</p>
                 <div class="text-right">
-
+                    <input type="hidden" id="g_image_index" value="">
                     <button data-dismiss="modal" class="btn btn-default btn-sm" type="button" id="modal_close"><?php echo translate('close')?></button>
                     <button class="btn btn-primary btn-sm" id="g_verified_status" value=""><?php echo translate('confirm')?></button>
                 </div>
@@ -130,6 +130,7 @@
 </script>
 <script>
 	function profileImageVerified(status, member_id){
+	    //console.log('dddd');
 	    $("#verified_status").val(status);
 
 	    if (status == 'yes') {
@@ -154,9 +155,10 @@
 			}
 		});
     })
-    function galleryImageVerified(status, member_id){
+    function galleryImageVerified(index , status, member_id){
         $("#g_verified_status").val(status);
-
+        $("#g_image_index").val(index);
+        //alert(index);
         if (status == 'yes') {
             $("#g_block_type").html("<?php echo translate('Unverified')?>");
         }
@@ -164,11 +166,11 @@
             $("#g_block_type").html("<?php echo translate('Verified')?>");
         }
         $("#member_id").val(member_id);
-    }galleryImageVerified
+    }
 
     $("#g_verified_status").click(function(){
         $.ajax({
-            url: "<?=base_url()?>admin/gallery_images_verified/"+$("#g_verified_status").val()+"/"+$("#member_id").val(),
+            url: "<?=base_url()?>admin/gallery_images_verified/"+$("#g_verified_status").val()+"/"+$("#member_id").val()+"/"+$("#g_image_index").val(),
             success: function(response) {
                 //alert(response);
                 //window.location.href = "<?=base_url()?>admin/members/<?=$parameter?>";
