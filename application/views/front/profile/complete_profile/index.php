@@ -449,7 +449,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group has-feedback">
                                                             <label for="postal_code" class="text-uppercase c-gray-light"><?php echo translate('postal-Code')?></label>
-                                                            <input type="text" class="form-control no-resize" name="postal_code" value="<?php if(!empty($form_contents)){echo $form_contents['postal_code'];} else{echo $present_address_data[0]['postal_code'];}?>">
+                                                            <input type="text" class="form-control no-resize postal_code" name="postal_code" value="<?php if(!empty($form_contents)){echo $form_contents['postal_code'];} else{echo $present_address_data[0]['postal_code'];}?>">
                                                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                                             <div class="help-block with-errors">
                                                             </div>
@@ -549,6 +549,35 @@
 </section>
 <script>
     $(document).ready(function(){
+        $(".no-resize").each(function() {
+            var element = $(this);
+            if (element.val() == "") {
+                element.css('border-color','#E91E63');
+                element.css('box-shadow','0 0 0 0.2rem rgba(0,123,255,.25)');
+            }
+        });
+        $(".no-resize").keypress(function () {
+           // alert('ddd');
+            var element = $(this);
+            if (element.val() != "") {
+                element.css('border-color', '');
+                element.css('box-shadow', '');
+            }
+        });
+        $('.form-control-sm').each(function () {
+            var element = $(this);
+            if (element.val() == "") {
+                element.css('border-color','#E91E63');
+                element.css('box-shadow','0 0 0 0.2rem rgba(0,123,255,.25)');
+            }
+        });
+        $( "select" ) .change(function () {
+            var element = $(this);
+            element.css('border-color','');
+            element.css('box-shadow','');
+        });
+        //$('.form-control-sm')
+
         $(".height_mask").inputmask({
             mask: "9.99",
             greedy: false,

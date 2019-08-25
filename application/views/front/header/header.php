@@ -191,10 +191,10 @@
 					                    <a href="<?=base_url()?>my-matches">
 					                    <?php echo translate('my_matches')?></a>
 					                    </li>
-										<li>
-					                    <a href="<?php echo base_url(); ?>near-matches">
-					                    <?php echo translate('near_me')?></a>
-					                    </li>
+										<!--<li>
+					                    <a href="<?php /*echo base_url(); */?>near-matches">
+					                    <?php /*echo translate('near_me')*/?></a>
+					                    </li>-->
 									</ul>
 									</li>
 									<?php } ?>
@@ -216,10 +216,10 @@
 					                    <a href="<?=base_url()?>free-members">
 					                    <?php echo translate('free_members')?></a>
 					                    </li>
-										<li>
-					                    <a href="<?=base_url()?>near-me">
-					                    <?php echo translate('near_me')?></a>
-					                    </li>
+										<!--<li>
+					                    <a href="<?/*=base_url()*/?>near-me">
+					                    <?php /*echo translate('near_me')*/?></a>
+					                    </li>-->
 					                    </ul>
 					                    </li>
 					                    
@@ -345,10 +345,10 @@
 					                    <a class="dropdown-item <?php if(!empty($nav_dropdown)){if($nav_dropdown == 'free_members'){?>nav_active_dropdown<?php }}?>" href="<?=base_url()?>free-members">
 					                    <?php echo translate('free_members')?></a>
 					                    </li>
-										<li>
-					                    <a class="dropdown-item <?php if(!empty($nav_dropdown)){if($nav_dropdown == 'near_me'){?>nav_active_dropdown<?php }}?>" href="<?=base_url()?>near-me">
-					                    <?php echo translate('near_me')?></a>
-					                    </li>
+										<!--<li>
+					                    <a class="dropdown-item <?php /*if(!empty($nav_dropdown)){if($nav_dropdown == 'near_me'){*/?>nav_active_dropdown<?php /*}}*/?>" href="<?/*=base_url()*/?>near-me">
+					                    <?php /*echo translate('near_me')*/?></a>
+					                    </li>-->
 					                </ul>
 									</li>
 									<?php if (!empty($this->session->userdata['member_id'])) { ?>

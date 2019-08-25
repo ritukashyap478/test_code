@@ -13,7 +13,11 @@
                 if (file_exists('uploads/profile_image/'.$images[0]['thumb'])) {
                 ?>
                     <div>
-                        <div class="profile_img" id="show_img" style="background-image: url()"><img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb'].'?t='.time()?>"></div>
+                        <div class="profile_img" id="show_img" style="background-image: url()">
+                            <img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb'].'?t='.time()?>">
+                            <?php if($images[0]['verified'] == 'no') { echo "Unverified<i class='fas fa-cross'></i>"; }  else{ echo "Verified<i class='fas fa-check'></i>"; }?>
+
+                        </div>
                     </div>
                 <?php
                 }
@@ -39,6 +43,7 @@
             <label class="btn-aux" for="profile_image" style="cursor: pointer;display:<?php echo !empty($current_tab) ? 'none !important' : '';?>">
                 <i class="ion ion-edit"></i>
             </label>
+
             <form action="<?=base_url()?>home/profile/update_image" method="POST" id="profile_image_form" enctype="multipart/form-data">
             <input type="hidden" id="profile_image_data" name="profile_image_data" />
                 <input type="file" style="display: none;" id="profile_image" name="profile_image" onChange="readFile(event)"/>
