@@ -1,4 +1,12 @@
-<?php if($this->db->get_where("member", array("member_id" => $this->session->userdata('member_id')))->row()->is_closed == 'yes')
+
+
+
+<?php
+$check_member_id = $this->session->userdata('member_id');
+if(!empty($check_member_id)) {
+
+
+if($this->db->get_where("member", array("member_id" => $check_member_id))->row()->is_closed == 'yes')
     { echo " "; } 
 else { ?>
     <li class="listing-hover">
@@ -118,4 +126,4 @@ else { ?>
             <i class="ion-android-call"></i><span>View Contact</span>
         </a>
     </li>
-<?php } ?>
+<?php } }?>
