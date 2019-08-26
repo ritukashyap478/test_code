@@ -15,7 +15,10 @@
                     <div>
                         <div class="profile_img" id="show_img" style="background-image: url()">
                             <img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb'].'?t='.time()?>">
-                            <?php if($images[0]['verified'] == 'no') { echo "Unverified<i class='fas fa-cross'></i>"; }  else{ echo "Verified<i class='fas fa-check'></i>"; }?>
+                            <?php
+                            if(isset($images[0]['verified'])){
+                            if($images[0]['verified'] == 'no') { echo "Unverified<i class='fas fa-cross'></i>"; } else { echo "Verified<i class='fas fa-check'></i>"; }
+                            }?>
 
                         </div>
                     </div>

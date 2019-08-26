@@ -20,7 +20,7 @@
                 ?>
                     
                         <div class="profile_img" id="show_img">
-						<img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb']?>" alt="Profile Picture">
+						<img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb'].'?t='.time()?>" alt="Profile Picture">
 						
 						</div>
                   
@@ -38,7 +38,7 @@
 					
 					<div class="profile_img" id="show_img">
 						
-						<img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb']?>" alt="Profile Picture">
+						<img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb'].'?t='.time()?>" alt="Profile Picture">
 						</div>
 					
                
@@ -488,67 +488,6 @@
         return false;
     }
 
-    /*function confirm_message(id) {
-        // alert(id);
-        if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in');?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_enable_messaging');?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close');?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in');?></a>");
-        }
-        else {
-            if (rem_messages <= 0) {
-                $("#active_modal").modal("toggle");
-                $("#modal_header").html("<?php echo translate('buy_premium_packages');?>");
-                $("#modal_body").html("<p class='text-center'><b><?php echo translate('remaining_direct_message(s):');?>"+rem_messages+" <?php echo translate('times');?></b><br><?php echo translate('please_buy_packages_from_the_premium_plans');?></p>");
-                $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close');?></button> <a href='<?=base_url()?>home/plans' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('premium_plans');?></a>");
-            }
-            else {
-                $("#active_modal").modal("toggle");
-                $("#modal_header").html("<?php echo translate('confirm_enable_messaging');?>");
-                $("#modal_body").html("<p class='text-center'><b><?php echo translate('remaining_direct_message(s):');?>"+rem_messages+" <?php echo translate('times');?></b><br><span style='color:#DC0330;font-size:11px'>**N.B. <?php echo translate('enable_messaging_will_cost_1_from_your_remaining_direct_messages');?>**</span></p>");
-                $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close');?></button> <a href='#' id='confirm_message' class='btn btn-sm btn-base-1 btn-shadow' onclick='return enable_message("+id+")' style='width:25%'><?php echo translate('confirm');?></a>");
-            }
-        }    
-        return false;
-    }
-
-    function enable_message(id) {
-        if (isloggedin == "") {
-            $("#active_modal").modal("toggle");
-            $("#modal_header").html("<?php echo translate('please_log_in');?>");
-            $("#modal_body").html("<p class='text-center'><?php echo translate('please_log_in_to_enable_messaging');?></p>");
-            $("#modal_buttons").html("<button type='button' class='btn btn-danger btn-sm btn-shadow' data-dismiss='modal' style='width:25%'><?php echo translate('close');?></button> <a href='<?=base_url()?>home/login' class='btn btn-sm btn-base-1 btn-shadow' style='width:25%'><?php echo translate('log_in');?></a>");
-        }
-        else {
-            $("#message_a_"+id).addClass("li_active");
-            $("#confirm_message").removeAttr("onclick");
-            $("#confirm_message").html("<i class='fa fa-refresh fa-spin'></i> <?php echo translate('processing');?>..");
-            $("#message_a_"+id).removeAttr("onclick");
-            setTimeout(function() {
-                $.ajax({
-                    type: "POST",
-                    url: "<?=base_url()?>home/enable_message/"+id,
-                    cache: false,
-                    success: function(response) {
-                        $("#active_modal .close").click();
-                        $("#message_text").html("<i class='fa fa-comments-o'></i><?php echo translate('message_enabled');?>");
-                        $("#message_a_"+id).css("cssText", "");
-                        $("#success_alert").show();
-                        $(".alert-success").html("<?php echo translate('you_have_enable_messaging_with_this_member!');?>");
-                        $('#danger_alert').fadeOut('fast');
-                        setTimeout(function() {
-                            $('#success_alert').fadeOut('fast');
-                        }, 5000); // <-- time in milliseconds
-                    },
-                    fail: function (error) {
-                        alert(error);
-                    }
-                });
-            }, 500); // <-- time in milliseconds
-        }    
-        return false;
-    }*/
 
     function do_shortlist(id) {
         // alert(id);
