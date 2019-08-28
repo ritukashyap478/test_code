@@ -1374,6 +1374,7 @@ class Admin extends CI_Controller {
 				$page_data['folder'] = "deleted_members";
 				$page_data['file'] = "index.php";
 				$page_data['bottom'] = "members/index.php";
+                $page_data['page_name'] = "deleted_members";
 
 				$this->load->view('back/index', $page_data);
 			}
