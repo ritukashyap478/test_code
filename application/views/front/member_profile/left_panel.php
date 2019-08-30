@@ -6,61 +6,76 @@
             <?php
                 $profile_image = $get_member[0]->profile_image;
                 $images = json_decode($profile_image, true);
-                if (file_exists('uploads/profile_image/'.$images[0]['thumb'])) {
-                    $pic_privacy = $get_member[0]->pic_privacy;
-                    $pic_privacy_data = json_decode($pic_privacy, true);
-                    $is_premium = $this->Crud_model->get_type_name_by_id('member', $this->session->userdata('member_id'), 'membership');
-                    if($pic_privacy_data[0]['profile_pic_show']=='only_me'){
-                ?>
-               
+                //print_r($images); die;
+                if(isset($images[0]['verified']) && $images[0]['verified'] == 'yes') {
+                    if (file_exists('uploads/profile_image/' . $images[0]['thumb'])) {
+                        $pic_privacy = $get_member[0]->pic_privacy;
+                        $pic_privacy_data = json_decode($pic_privacy, true);
+                        $is_premium = $this->Crud_model->get_type_name_by_id('member', $this->session->userdata('member_id'), 'membership');
+                        if ($pic_privacy_data[0]['profile_pic_show'] == 'only_me') {
+                            ?>
+
+                            <div class="profile_img" id="show_img">
+                                <img src="<?= base_url() ?>uploads/profile_image/default.jpg" alt="Profile Picture">
+                            </div>
+
+                        <?php } elseif ($pic_privacy_data[0]['profile_pic_show'] == 'premium' and $is_premium == 2) {
+                            ?>
+
+                            <div class="profile_img" id="show_img">
+                                <img src="<?= base_url() ?>uploads/profile_image/<?= $images[0]['thumb'] . '?t=' . time() ?>"
+                                     alt="Profile Picture">
+
+                            </div>
+
+                        <?php } elseif ($pic_privacy_data[0]['profile_pic_show'] == 'premium' and $is_premium == 1) {
+                            ?>
+
+                            <div class="profile_img" id="show_img">
+
+                                <img src="<?= base_url() ?>uploads/profile_image/default.jpg" alt="Profile Picture">
+                            </div>
+
+                        <?php } elseif ($pic_privacy_data[0]['profile_pic_show'] == 'all') {
+                            ?>
+
+
+                            <div class="profile_img" id="show_img">
+
+                                <img src="<?= base_url() ?>uploads/profile_image/<?= $images[0]['thumb'] . '?t=' . time() ?>"
+                                     alt="Profile Picture">
+                            </div>
+
+
+                        <?php } else {
+                            ?>
+
+
+                            <div class="profile_img" id="show_img">
+
+                                <img src="<?= base_url() ?>uploads/profile_image/default.jpg" alt="Profile Picture">
+                            </div>
+
+                        <?php }
+                    } else {
+                        ?>
+
                         <div class="profile_img" id="show_img">
-						<img src="<?=base_url()?>uploads/profile_image/default.jpg" alt="Profile Picture"></div>
-                  
-                <?php }elseif ($pic_privacy_data[0]['profile_pic_show']=='premium' and $is_premium==2) {
-                ?>
-                    
-                        <div class="profile_img" id="show_img">
-						<img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb'].'?t='.time()?>" alt="Profile Picture">
-						
-						</div>
-                  
-                <?php }elseif ($pic_privacy_data[0]['profile_pic_show']=='premium' and $is_premium==1) {
-                ?>
-                   
-                        <div class="profile_img" id="show_img">
-						
-						<img src="<?=base_url()?>uploads/profile_image/default.jpg" alt="Profile Picture">
-						</div>
-                   
-                <?php }elseif ($pic_privacy_data[0]['profile_pic_show']=='all') {
-                ?>
-               
-					
-					<div class="profile_img" id="show_img">
-						
-						<img src="<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb'].'?t='.time()?>" alt="Profile Picture">
-						</div>
-					
-               
-                <?php }else{
+
+                            <img src="<?= base_url() ?>uploads/profile_image/default.jpg" alt="Profile Picture">
+                        </div>
+
+                        <?php
+                    }
+                }else {
                     ?>
-                    
 
-						<div class="profile_img" id="show_img">
-						
-						<img src="<?=base_url()?>uploads/profile_image/default.jpg" alt="Profile Picture">
-						</div>
-                  
-                    <?php }
-                } else {
-                ?>
+                    <div class="profile_img" id="show_img">
 
-						<div class="profile_img" id="show_img">
-						
-						<img src="<?=base_url()?>uploads/profile_image/default.jpg" alt="Profile Picture">
-						</div>
-                  
-                <?php
+                        <img src="<?= base_url() ?>uploads/profile_image/default.jpg" alt="Profile Picture">
+                    </div>
+
+                    <?php
                 }
             ?>
 			

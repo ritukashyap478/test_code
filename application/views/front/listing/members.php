@@ -33,6 +33,7 @@ foreach ($get_all_members as $member): ?>
 			<!-----   user Mobile Buttons END ---->	
             <a onclick="return goto_profile(<?=$member->member_id?>)">
                     <?php
+                    if(isset($image[0]['verified']) && $image[0]['verified'] == 'yes') {
                     if (file_exists('uploads/profile_image/'.$image[0]['profile_image'])) {
                     ?>
                     <?php
@@ -63,6 +64,11 @@ foreach ($get_all_members as $member): ?>
                     ?>
                         <div class="listing-image"><img src="<?=base_url()?>uploads/profile_image/default.jpg"></div>
                     <?php
+                    }   } else {
+                        ?>
+                        <div class="listing-image"><img src="<?=base_url()?>uploads/profile_image/default.jpg"></div>
+                        <?php
+
                     }
                     ?>
                 </a>
