@@ -26,7 +26,8 @@
                         <td>
 <a href="<?=base_url()?>home/member_profile/<?=$row['by']?>">
                             <?php
-                                if (file_exists('uploads/profile_image/'.$image[0]['thumb'])) {
+
+                                if (file_exists('uploads/profile_image/'.$noti_images[0]['thumb'])) {
                                 ?>
                                 <img src="<?=base_url()?>uploads/profile_image/<?=$noti_images[0]['thumb']?>" alt="" style="height: 50px">
                                 <?php

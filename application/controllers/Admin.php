@@ -5935,6 +5935,44 @@ class Admin extends CI_Controller {
 			}
 			redirect(base_url().'admin/email_setup', 'refresh');
 		}
+        elseif ($para1=="profile_image_email") {
+            $data1['subject'] = $this->input->post('profile_image_email_sub');
+            $data2['body'] = $this->input->post('profile_image_email_body');
+
+            $this->db->where('email_template_id', 7);
+            $result = $this->db->update('email_template', $data1);
+
+            $this->db->where('email_template_id', 7);
+            $result = $this->db->update('email_template', $data2);
+            recache();
+
+            if ($result) {
+                $this->session->set_flashdata('alert', 'edit');
+            }
+            else {
+                $this->session->set_flashdata('alert', 'failed_edit');
+            }
+            redirect(base_url().'admin/email_setup', 'refresh');
+        }
+        elseif ($para1=="gallery_image_email") {
+            $data1['subject'] = $this->input->post('gallery_image_email_sub');
+            $data2['body'] = $this->input->post('gallery_image_email_body');
+
+            $this->db->where('email_template_id', 8);
+            $result = $this->db->update('email_template', $data1);
+
+            $this->db->where('email_template_id', 8);
+            $result = $this->db->update('email_template', $data2);
+            recache();
+
+            if ($result) {
+                $this->session->set_flashdata('alert', 'edit');
+            }
+            else {
+                $this->session->set_flashdata('alert', 'failed_edit');
+            }
+            redirect(base_url().'admin/email_setup', 'refresh');
+        }
 	}
 
 	function check_login()
