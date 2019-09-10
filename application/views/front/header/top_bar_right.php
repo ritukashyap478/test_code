@@ -57,9 +57,11 @@
 								                    	<?php
 								                    		$profile_image = $this->Crud_model->get_type_name_by_id('member', $this->session->userdata['member_id'], 'profile_image');
 											                $images = json_decode($profile_image, true);
+
+											                //print_r($images); die;
 											                if (file_exists('uploads/profile_image/'.$images[0]['thumb'])) {
 											                ?>
-											                    <div class="top_nav_img" style="background-image: url(<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb']?>)"></div>
+											                    <div class="top_nav_img" style="background-image: url(<?=base_url()?>uploads/profile_image/<?=$images[0]['thumb'].'?t='.time()?>)"></div>
 											                <?php
 											                }
 											                else {

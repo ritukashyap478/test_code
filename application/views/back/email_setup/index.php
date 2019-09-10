@@ -56,6 +56,12 @@
 		                <li>
 		                    <a data-toggle="tab" href="#tab-4"><?php echo translate('staff_account_add_email')?></a>
 		                </li>
+                        <li>
+                            <a data-toggle="tab" href="#tab-5"><?php echo translate('profile_image_uploaded')?></a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#tab-6"><?php echo translate('gallery_image_uploaded')?></a>
+                        </li>
 		            </ul>
 		
 		            <!--Tabs Content-->
@@ -196,6 +202,74 @@
 	                    	}
 	                        ?>
 		                </div>
+                        <div id="tab-5" class="tab-pane fade">
+                            <?php
+                            $profile_image = $this->db->get_where('email_template', array('email_template_id' => 7))->result();
+                            ?>
+                            <?php
+                            foreach ($profile_image as $value4) {
+                                ?>
+                                <form class="form-horizontal" id="email_setup_form" method="POST" action="<?=base_url()?>admin/update_email_setup/profile_image_email">
+                                    <div class="form-group btm_border">
+                                        <label class="col-sm-2 control-label" for="email_setup"><b><?=translate('subject')?></b>
+                                        </label>
+                                        <div class="col-sm-8 col-sm-offse">
+                                            <input type="text" name="profile_image_email_sub" value="<?=$value4->subject?>" placeholder="" class="form-control" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group btm_border">
+                                        <label class="col-sm-2 control-label" for="email_setup"><b><?=translate('email_body')?></b>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <textarea rows="15" class="form-control textarea" data-height="100" name="profile_image_email_body" style="height: 380px;"><?=$value4->body?></textarea>
+                                            <br>
+                                            <span class="text-danger">**N.B : <?=translate('Do Not Change The Variables Like')?> [[ ____ ]].**</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-9">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-labeled fa fa-save"><?php echo translate('submit')?></button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <div id="tab-6" class="tab-pane fade">
+                            <?php
+                            $gallery_image_email = $this->db->get_where('email_template', array('email_template_id' => 8))->result();
+                            ?>
+                            <?php
+                            foreach ($gallery_image_email as $value4) {
+                                ?>
+                                <form class="form-horizontal" id="email_setup_form" method="POST" action="<?=base_url()?>admin/update_email_setup/gallery_image_email">
+                                    <div class="form-group btm_border">
+                                        <label class="col-sm-2 control-label" for="email_setup"><b><?=translate('subject')?></b>
+                                        </label>
+                                        <div class="col-sm-8 col-sm-offse">
+                                            <input type="text" name="gallery_image_email_sub" value="<?=$value4->subject?>" placeholder="" class="form-control" >
+                                        </div>
+                                    </div>
+                                    <div class="form-group btm_border">
+                                        <label class="col-sm-2 control-label" for="email_setup"><b><?=translate('email_body')?></b>
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <textarea rows="15" class="form-control textarea" data-height="100" name="gallery_image_email_body" style="height: 380px;"><?=$value4->body?></textarea>
+                                            <br>
+                                            <span class="text-danger">**N.B : <?=translate('Do Not Change The Variables Like')?> [[ ____ ]].**</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-9">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-labeled fa fa-save"><?php echo translate('submit')?></button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <?php
+                            }
+                            ?>
+                        </div>
 		            </div>
 		        </div>
 			</div>
