@@ -3365,6 +3365,11 @@ $data['longitude'] = $loc_array['longitude'];
 
                 $result = $this->db->update('member', $data);
                 recache();
+                if ($this->Email_model->image_upload('admin','profile_image',$id)) {
+                    //$msg = 'done_but_not_sent';
+                } else {
+                    //$msg = 'done_and_sent';
+                }
                 $this->session->set_flashdata('alert', 'edit_image');
                 redirect(base_url().'home/profile', 'refresh');
             }
@@ -3613,6 +3618,7 @@ $data['longitude'] = $loc_array['longitude'];
     }
 
     function gallery_upload($para1) {
+        print_r('ddd');die;
         if ($this->member_permission() == FALSE) {
             redirect(base_url().'home/login', 'refresh');
         }
@@ -3727,6 +3733,12 @@ $data['longitude'] = $loc_array['longitude'];
                     $this->session->set_flashdata('alert', 'failed_add');
                 }
                 $this->session->set_flashdata('alert', 'add_gallery');
+
+                if ($this->Email_model->image_upload('admin','gallery_image',$member_id)) {
+                    //$msg = 'done_but_not_sent';
+                } else {
+                    //$msg = 'done_and_sent';
+                }
                 redirect(base_url().'home/profile/gallery-list', 'refresh');
             } else {
                 redirect(base_url().'home/profile/gallery-list', 'refresh');

@@ -284,5 +284,55 @@
             }
         }
 
+        function image_upload($account_type = '', $image_type = '', $member_id='') {
+            $this->load->database();
+            $from_name = $this->db->get_where('general_settings', array('type' => 'system_name'))->row()->value;
+            $protocol = $this->db->get_where('general_settings', array('type' => 'mail_status'))->row()->value;
+            if ($protocol == 'smtp') {
+                $from = $this->db->get_where('general_settings', array('type' => 'smtp_user'))->row()->value;
+            } else if ($protocol == 'mail') {
+                $from = $this->db->get_where('general_settings', array('type' => 'system_email'))->row()->value;
+            }
+
+
+            $query = $this->db->get_where($account_type, array('role' => 1));
+
+            if ($query->num_rows() > 0) {
+
+               if ($account_type == 'admin' && $image_type == "profile_image") {
+                    $sub = $this->db->get_where('email_template', array('email_template_id' => 7))->row()->subject;
+                    $to_name = $query->row()->name;
+                    $to_email = $query->row()->email;
+
+                    $username  = $this->db->get_where('member', array('member_id' => $member_id))->row()->name;
+                    $useremail  = $this->db->get_where('member', array('member_id' => $member_id))->row()->email;
+
+                    $email_body = $this->db->get_where('email_template', array('email_template_id' => 7))->row()->body;
+                    $email_body = str_replace('[[to]]', $to_name, $email_body);
+                    $email_body = str_replace('[[name]]', $username, $email_body);
+                    $email_body = str_replace('[[email]]', $useremail, $email_body);
+                }
+
+                if ($account_type == 'admin' && $image_type == "gallery_image") {
+                    $sub = $this->db->get_where('email_template', array('email_template_id' => 8))->row()->subject;
+                    $to_name = $query->row()->name;
+                    $to_email = $query->row()->email;
+
+                    $username  = $this->db->get_where('member', array('member_id' => $member_id))->row()->name;
+                    $useremail  = $this->db->get_where('member', array('member_id' => $member_id))->row()->email;
+
+                    $email_body = $this->db->get_where('email_template', array('email_template_id' => 8))->row()->body;
+                    $email_body = str_replace('[[to]]', $to_name, $email_body);
+                    $email_body = str_replace('[[name]]', $username, $email_body);
+                    $email_body = str_replace('[[email]]', $useremail, $email_body);
+                }
+
+                $send_mail = $this->do_email($from, $from_name, $to_email, $sub, $email_body);
+                return $send_mail;
+            } else {
+                return false;
+            }
+        }
+
     }
     

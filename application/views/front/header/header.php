@@ -393,11 +393,10 @@
 					            </ul>	
 
                         <!---nav class="top-navbar-menu"></nav-->
-					            	<ul class="top_bar_right">
-<?php include_once 'top_bar_right.php'; ?>
-                                                        </ul>									
-					          					                
-					            								
+                                <ul class="top_bar_right">
+                                    <?php include_once 'top_bar_right.php'; ?>
+                                </ul>
+
 					        </div>
 							
 						

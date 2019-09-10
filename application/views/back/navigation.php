@@ -8,15 +8,16 @@
 		<div class="nano">
 			<div class="nano-content">
 				<ul id="mainnav-menu" class="list-group">
+
 					<li <?php if($page_name=="dashboard"){ ?> class="active-link" <?php } ?>>
 						<a href="<?=base_url()?>admin">
 							<i class="fa fa-home"></i>
 							<span class="menu-title"><?php echo translate('dashboard')?></span>
 						</a>
-					</li><?php 
+					</li><?php
 					if ($this->Crud_model->admin_permission('members')){
                             ?>
-					<li <?php if($page_name=="free_members"||$page_name=="premium_members"|| $page_name=="add_member"){ ?> class="active-sub active" <?php } ?>>
+					<li <?php if($page_name=="free_members"||$page_name=="premium_members"|| $page_name=="add_member" ||$page_name=="deleted_members"){ ?> class="active-sub active" <?php } ?>>
 						<a href="#">
 							<i class="fa fa-users"></i>
 							<span class="menu-title"><?php echo translate('members')?></span>

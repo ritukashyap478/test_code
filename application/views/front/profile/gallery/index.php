@@ -23,6 +23,10 @@
                                             if (file_exists('uploads/gallery_image/'.$value['image'])) {
                                             ?>
                                                 <img src="<?=base_url()?>uploads/gallery_image/<?=$value['image']?>" style="max-height: 302px;">
+                                                <?php
+                                                if(isset($value['verified'])){
+                                                    if($value['verified'] == 'no') { echo "Unverified<i class='fas fa-cross'></i>"; } else { echo "Verified<i class='fas fa-check'></i>"; }
+                                                }?>
                                                 <div class="mask mask-base-1--style-2">
                                                     <div class="view-buttons text-center">
                                                         <div class="view-buttons-inner text-center">
